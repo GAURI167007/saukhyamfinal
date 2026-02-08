@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Appointments | Saukhyam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background: radial-gradient(circle at top left, #fbe9ff, #f3f0ff 40%, #ffffff 80%);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            /* Inherit from style.css */
+            padding: 1rem 1.25rem;
+            position: relative;
+            z-index: 100;
+            text-align: center;
+        }
+
+        .brand {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-wrapper {
+            /* Inherit from style.css */
+        }
+
+        @media (max-width: 768px) {
+            .logo-wrapper {
+                width: 80px;
+                height: 80px;
+                left: 10px;
+            }
+        }
+
+        nav {
+            justify-content: center;
+            flex-wrap: wrap;
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        nav a {
+            background: white !important;
+            color: #b400ff !important;
+            border: 2px solid white !important;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+
+        nav a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background: #f0f0f0 !important;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1.25rem;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-family: 'Playfair Display', serif;
+            color: #444;
+            font-size: 2.5rem;
+        }
+
+        .appointments-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .appt-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-wrap: wrap;
+            /* allow wrapping on mobile */
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .appt-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .appt-info h3 {
+            font-size: 1.4rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.2rem;
+        }
+
+        .appt-meta {
+            color: var(--muted);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .appt-concern {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #444;
+        }
+
+        .appt-status {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 0.4rem 1rem;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .header-title-text {
+            /* Inherit color from style.css */
+            font-size: 3.5rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .header-title-text {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="brand">
+            <div class="logo-wrapper">
+                <img src="{{ url_for('static', filename='images/Logo.jpeg') }}"
+                    style="width: 100%; height: 100%; object-fit: cover; object-position: center; mix-blend-mode: multiply; transform: scale(1.1);"
+                    alt="S">
+            </div>
+            <div>
+                <h1 class="header-title-text">My Appointments</h1>
+                <p style="color: #ffe6fa; font-size: 1.2rem; font-weight: 500;">
+                    Your scheduled care and consultations.
+                </p>
+            </div>
+        </div>
+        <nav
+            style="position: absolute; top: 2rem; right: 2rem; left: auto; margin: 0; background: transparent !important; box-shadow: none !important;">
+            <a href="{{ url_for('home') }}"
+                style="background: white !important; color: #b400ff !important; font-weight: 700; border: 2px solid white !important; box-shadow: 0 4px 12px rgba(0,0,0,0.1); opacity: 1; margin-right: 1rem; border-radius: 20px 4px 20px 4px; padding: 0.5rem 1rem; text-decoration: none;">Home</a>
+            <a href="{{ url_for('library') }}"
+                style="background: white !important; color: #b400ff !important; font-weight: 700; border: 2px solid white !important; box-shadow: 0 4px 12px rgba(0,0,0,0.1); opacity: 0.9; border-radius: 20px 4px 20px 4px; padding: 0.5rem 1rem; text-decoration: none;">Library</a>
+        </nav>
+    </header>
+
+    <main>
+        {% if appointments %}
+        <div class="appointments-grid">
+            {% for appt in appointments %}
+            <div class="appt-card">
+                <div class="appt-info">
+                    <h3>{{ appt.speciality }}</h3>
+                    <p class="appt-meta">{{ appt.date }} at {{ appt.time }} • {{ appt.mode }}</p>
+                    <p class="appt-concern">Concern: "{{ appt.concern }}"</p>
+                </div>
+                <div class="appt-status">Confirmed</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="card" style="text-align: center; padding: 3rem;">
+            <h2 style="font-size: 2rem; margin-bottom: 1rem;">No Upcoming Appointments</h2>
+            <p style="font-size: 1.2rem; color: #666; margin-bottom: 2rem;">You haven't booked any consultations yet.
+            </p>
+            <a href="{{ url_for('doctorsconnect') }}" class="button">Book an Appointment</a>
+        </div>
+        {% endif %}
+    </main>
+</body>
+
+</html>

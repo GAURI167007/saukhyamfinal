@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>AI Insights</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        :root {
+            --primary: #9b4dca;
+            --primary-dark: #7a32a6;
+            --accent: #ff6f61;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg: #f8f5ff;
+            --text: #222222;
+            --muted: #666666;
+            --card-bg: #ffffff;
+            --border: #e0d6f5;
+            --radius: 12px;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top left, #fbe9ff, #f3f0ff 40%, #ffffff 80%);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            /* background: linear-gradient(135deg, var(--primary), var(--accent)); Removed */
+            /* color: #ffffff; Removed */
+            padding: 1.5rem 1.25rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.75rem;
+        }
+
+        header .logo-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 60%;
+            background: #ffffff22;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        header h1 {
+            font-size: 1.4rem;
+        }
+
+        header p {
+            font-size: 0.9rem;
+            color: #ffefff;
+        }
+
+        nav {
+            margin-top: 0.75rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            font-size: 0.85rem;
+            color: #ffffff;
+            padding: 0.5rem 0.75rem;
+            border-radius: 999px;
+            border: 1px solid #ffffff55;
+            backdrop-filter: blur(6px);
+            background: #ffffff22;
+        }
+
+        nav a:hover {
+            background: #ffffff33;
+        }
+
+        main {
+            max-width: 1000px;
+            /* Wider container */
+            margin: 2rem auto 3.5rem;
+            padding: 0 1.25rem;
+        }
+
+        @media (max-width: 800px) {
+            main {
+                max-width: 100%;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 3rem;
+            /* Huge padding */
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .card h2 {
+            font-size: 3rem;
+            /* Match Doctor Connect size */
+            font-family: 'Playfair Display', serif;
+            /* Match font */
+            margin-bottom: 0.75rem;
+            color: var(--primary-dark);
+        }
+
+        .card p.sub {
+            font-size: 1.25rem;
+            /* Larger subtitle */
+            color: var(--muted);
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.7rem;
+            border-radius: 999px;
+            background: #f4ecff;
+            color: var(--primary-dark);
+            margin-bottom: 0.6rem;
+        }
+
+        .insight-card {
+            margin-bottom: 2rem;
+            /* Increased spacing between cards */
+            padding: 2rem;
+            /* Doubled padding for bigger size */
+            border-radius: 15px;
+            /* Slightly larger radius */
+            border-left: 6px solid;
+            /* Thicker accent border */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            /* Added shadow for depth */
+        }
+
+        .insight-card.mood {
+            border-left-color: var(--accent);
+            background: #fff5f4;
+        }
+
+        .insight-card.anemia {
+            border-left-color: var(--warning);
+            background: #fef7e0;
+        }
+
+        .insight-card.cycle {
+            border-left-color: var(--primary);
+            background: #f4ecff;
+        }
+
+        .insight-card.pregnancy {
+            border-left-color: var(--success);
+            background: #ecfdf5;
+        }
+
+        .insight-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .insight-title {
+            font-size: 1.5rem;
+            /* Much larger title */
+            font-weight: 700;
+            color: #444;
+        }
+
+        .insight-badge {
+            font-size: 0.85rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 999px;
+            font-weight: 600;
+        }
+
+        /* ... existing badge colors ... */
+
+        .insight-score {
+            font-size: 2.5rem;
+            /* Huge score */
+            font-weight: 800;
+            margin: 0.5rem 0;
+        }
+
+        /* ... existing score colors ... */
+
+        .insight-trend {
+            display: flex;
+            gap: 0.6rem;
+            font-size: 1rem;
+            /* Larger trend text */
+            color: var(--muted);
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+
+        .trend-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+        }
+
+        .trend-up {
+            background: #10b981;
+        }
+
+        .trend-down {
+            background: #ef4444;
+        }
+
+        .trend-stable {
+            background: #6b7280;
+        }
+
+        .ai-chat {
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+        }
+
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem;
+            background: #fcfbff;
+            margin-bottom: 0.75rem;
+            font-size: 0.85rem;
+        }
+
+        .message {
+            margin-bottom: 0.75rem;
+            padding: 0.5rem 0;
+        }
+
+        .message.user {
+            text-align: right;
+        }
+
+        .message.ai {
+            background: white;
+            border-radius: 8px 8px 0 8px;
+            padding: 0.6rem;
+            border: 1px solid #eee5ff;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 0.55rem 0.65rem;
+            border: 1px solid #d7ccee;
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+
+        .chat-input button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.55rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .data-sources {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 1rem;
+            padding-top: 0.75rem;
+            border-top: 1px dashed var(--border);
+        }
+
+        footer {
+            max-width: 1040px;
+            margin: 0 auto 1.5rem;
+            padding: 0 1.25rem;
+            font-size: 0.75rem;
+            color: var(--muted);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <style>
+        header {
+            background: linear-gradient(135deg, #b400ff, #ff007f);
+            color: white;
+            padding: 1rem 1.25rem;
+            position: relative;
+            z-index: 100;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            /* Override possible previous defaults */
+            display: block;
+        }
+
+        .brand {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .logo-wrapper {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: red;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        nav {
+            justify-content: center;
+            flex-wrap: wrap;
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        nav a {
+            background: white !important;
+            color: #b400ff !important;
+            border: 2px solid white !important;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: inline-block;
+            font-size: 0.9rem;
+            /* Override specificity issues */
+            backdrop-filter: none;
+        }
+
+        nav a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background: #f0f0f0 !important;
+        }
+
+        /* Fix for conflicting header h1 styles in ai_insights */
+        header h1 {
+            font-size: 3.5rem !important;
+            margin: 0;
+        }
+
+        /* Updated Layout for Vertical Stacking */
+        main {
+            max-width: 800px;
+            /* Match doctorsconnect width */
+            margin: 2rem auto;
+            padding: 0 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            /* Space between stacked cards */
+        }
+
+
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            /* Bigger padding like doctors connect */
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            text-align: center;
+            /* Center align content inside */
+        }
+
+        .ai-chat {
+            position: relative;
+            /* Remove sticky */
+            top: auto;
+        }
+
+        .chat-input {
+            max-width: 600px;
+            margin: 1rem auto 0;
+        }
+
+        /* Nav improvements */
+        header {
+            padding-bottom: 2rem;
+            /* More space at bottom of header */
+        }
+    </style>
+    <div class="page-logo"
+        style="margin: 20px 20px 10px 20px; width: 120px; height: 120px; border-radius: 50%; overflow: hidden;">
+        <img src="{{ url_for('static', filename='images/Logo.jpeg') }}"
+            style="width: 100%; height: 100%; object-fit: cover; object-position: center; transform: scale(1.15);"
+            alt="Saukhyam Logo">
+    </div>
+
+    <header style="border-radius: 20px; margin-top: 10px;">
+        <div class="brand" style="margin-bottom: 0.5rem;">
+            <div>
+                <h1
+                    style="color: #ffffff; font-size: 3.5rem; font-weight: 700; font-family: 'Playfair Display', serif; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); letter-spacing: 1px;">
+                    AI Insights</h1>
+            </div>
+        </div>
+        <nav
+            style="position: absolute; top: 2rem; right: 2rem; left: auto; margin: 0; background: transparent !important; box-shadow: none !important;">
+            <a href="{{ url_for('home') }}"
+                style="background: white !important; color: #b400ff !important; font-weight: 700; border: 2px solid white !important; box-shadow: 0 4px 12px rgba(0,0,0,0.1); opacity: 1; border-radius: 20px 4px 20px 4px; padding: 0.5rem 1rem; text-decoration: none; margin-right: 1rem;">Home</a>
+            <a href="{{ url_for('library') }}"
+                style="background: white !important; color: #b400ff !important; font-weight: 700; border: 2px solid white !important; box-shadow: 0 4px 12px rgba(0,0,0,0.1); opacity: 0.9; border-radius: 20px 4px 20px 4px; padding: 0.5rem 1rem; text-decoration: none;">Library</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- AI Insights Dashboard -->
+        <section class="card" id="insights">
+            <h2>Your health patterns</h2>
+            <p class="sub">
+                AI analyzes 30+ days of logs + wearable data to surface trends beyond simple date prediction.
+            </p>
+
+            <div class="insight-card mood">
+                <div class="insight-header">
+                    <div class="insight-title">Mood & energy stability</div>
+                    <span class="insight-badge monitor">Monitor</span>
+                </div>
+                <div class="insight-score mood">68%</div>
+                <div class="insight-trend">
+                    <div class="trend-icon trend-down"></div>
+                    <span>Energy dipping vs 30‑day avg (HRV -12%)</span>
+                </div>
+                <p style="font-size: 0.82rem; margin-top: 0.4rem; color: var(--muted);">
+                    Low sleep + "overwhelmed" tags correlate with luteal phase. Consider 15min walks.
+                </p>
+            </div>
+
+            <div class="insight-card anemia">
+                <div class="insight-header">
+                    <div class="insight-title">Anemia risk factors</div>
+                    <span class="insight-badge medium">Medium</span>
+                </div>
+                <div class="insight-score anemia">3.2/5</div>
+                <div class="insight-trend">
+                    <div class="trend-icon trend-up"></div>
+                    <span>Resting HR elevated 4 days (+8 bpm)</span>
+                </div>
+                <p style="font-size: 0.82rem; margin-top: 0.4rem; color: var(--muted);">
+                    Activity down 22% + heavy flow logged. Check hemoglobin at next visit (JSY guideline).
+                </p>
+            </div>
+
+            <div class="insight-card cycle">
+                <div class="insight-header">
+                    <div class="insight-title">Cycle pattern health</div>
+                    <span class="insight-badge low">Low risk</span>
+                </div>
+                <div class="insight-score cycle">89%</div>
+                <div class="insight-trend">
+                    <div class="trend-icon trend-stable"></div>
+                    <span>28‑day avg consistent (temp + flow)</span>
+                </div>
+                <p style="font-size: 0.82rem; margin-top: 0.4rem; color: var(--muted);">
+                    Reliable ovulation signal last 3 cycles. Good for fertility planning if desired.
+                </p>
+            </div>
+
+            <div class="insight-card pregnancy">
+                <div class="insight-header">
+                    <div class="insight-title">Pregnancy readiness</div>
+                    <span class="insight-badge low">Low risk</span>
+                </div>
+                <div class="insight-score pregnancy">92%</div>
+                <div class="insight-trend">
+                    <div class="trend-icon trend-up"></div>
+                    <span>Folate intake optimal (wearable + logs)</span>
+                </div>
+                <p style="font-size: 0.82rem; margin-top: 0.4rem; color: var(--muted);">
+                    Aligned with PMSMA trimester benchmarks. Continue current nutrition pattern.
+                </p>
+            </div>
+
+            <div class="data-sources">
+                <strong>Sources:</strong> Manual logs (45 entries) + Saukhyam Sync Band (87%) + NFHS maternal health
+                benchmarks.<br>
+                <em>⚠️ Alerts only – confirm all concerns with your doctor. Not medical diagnosis.</em>
+            </div>
+        </section>
+
+        <!-- AI Chat Assistant -->
+        <section class="card ai-chat">
+            <span class="tag">Guide • Your AI health assistant</span>
+            <h2>Ask about your data</h2>
+            <p class="sub">Get plain-language explanations of patterns or next steps.</p>
+
+            <div class="chat-messages" id="chat-messages">
+                <div class="message ai">
+                    Hi! I see your mood score dropped with lower HRV. This often happens in luteal phase. Want to know
+                    more about energy management strategies? Or ask about anything else in your health data.
+                </div>
+            </div>
+
+            <div class="chat-input">
+                <input id="chat-input" type="text"
+                    placeholder="Eg: Why is my resting HR high? What helps anemia naturally?" />
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <span>© 2026 Saukhyam • RunTime Terrors</span>
+        <span>AI insights from Phase 2: Flask APIs + pattern recognition on SQLite/Firebase data.</span>
+    </footer>
+
+    <script>
+        // Chat Functionality (Advanced)
+        async function sendMessage() {
+            const input = document.getElementById("chat-input");
+            const messages = document.getElementById("chat-messages");
+            const text = input.value.trim();
+
+            if (!text) return;
+
+            // User Message Bubble
+            messages.innerHTML += `
+                <div style="text-align: right; margin-bottom: 1rem; display: flex; justify-content: flex-end; align-items: flex-end; gap: 0.5rem;">
+                    <div style="background: linear-gradient(135deg, #b400ff, #ff007f); color: white; padding: 0.8rem 1.2rem; border-radius: 12px 12px 0 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: inline-block; text-align: left;">
+                        ${text}
+                    </div>
+                    <div style="width: 30px; height: 30px; background: #ddd; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">👤</div>
+                </div>`;
+
+            input.value = "";
+            messages.scrollTop = messages.scrollHeight;
+
+            // Show Typing Indicator
+            const typingId = "typing-" + new Date().getTime();
+            messages.innerHTML += `
+                <div id="${typingId}" style="text-align: left; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                   <div style="width: 30px; height: 30px; background: #e0e7ff; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">🤖</div>
+                   <div style="background: #f3f4f6; padding: 0.8rem 1.2rem; border-radius: 12px 12px 12px 0; color: #6b7280; font-style: italic;">
+                        Analyzing patterns...
+                   </div>
+                </div>`;
+            messages.scrollTop = messages.scrollHeight;
+
+            // AI Response
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+                const data = await response.json();
+
+                // Remove Typing Indicator
+                const typingEl = document.getElementById(typingId);
+                if (typingEl) typingEl.remove();
+
+                // AI Message Bubble
+                messages.innerHTML += `
+                    <div style="text-align: left; margin-bottom: 1rem; display: flex; align-items: flex-end; gap: 0.5rem;">
+                        <div style="width: 30px; height: 30px; background: #e0e7ff; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">🤖</div>
+                        <div style="background: white; padding: 0.8rem 1.2rem; border-radius: 12px 12px 12px 0; color: #1f2937; box-shadow: 0 1px 2px rgba(0,0,0,0.05); border: 1px solid #eee5ff;">
+                            ${data.response}
+                        </div>
+                    </div>`;
+
+                messages.scrollTop = messages.scrollHeight;
+            } catch (error) {
+                console.error("Chat error:", error);
+
+                // Remove Typing Indicator
+                const typingEl = document.getElementById(typingId);
+                if (typingEl) typingEl.remove();
+
+                messages.innerHTML += `
+                    <div style="text-align: left; margin-bottom: 1rem; background: #fee2e2; padding: 0.8rem 1.2rem; border-radius: 12px 12px 12px 0; max-width: 80%; color: #991b1b; border: 1px solid #fecaca;">
+                        ⚠️ Insight service offline. Please try again.
+                    </div>`;
+                messages.scrollTop = messages.scrollHeight;
+            }
+        }
+
+        // Enter to send
+        document.getElementById('chat-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+</body>
+
+</html>

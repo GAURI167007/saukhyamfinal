@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access & Pricing</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background: #ffffff;
+            color: #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 700px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            border: 1px solid #e0e0e0;
+            border-radius: 16px;
+            padding: 30px;
+            background: #fafafa;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            font-size: 1.6rem;
+        }
+
+        ul {
+            text-align: left;
+            margin: 20px auto;
+            max-width: 500px;
+            line-height: 1.8;
+        }
+
+        ul li {
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            font-weight: 600;
+            color: #000;
+        }
+
+        .note {
+            margin-top: 25px;
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 28px;
+            background: #000;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #333;
+        }
+    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="container" style="position: relative;">
+        <!-- Top Right Home Link -->
+        <div style="position: absolute; top: 2rem; right: 2rem; left: auto;">
+            <a href="{{ url_for('home') }}"
+                style="background: white !important; color: #b400ff !important; font-weight: 700; border: 2px solid white !important; box-shadow: 0 4px 12px rgba(0,0,0,0.1); opacity: 1; padding: 0.5rem 1rem; border-radius: 20px 4px 20px 4px; text-decoration: none; margin-right: 1rem;">Home</a>
+            <a href="{{ url_for('library') }}"
+                style="background: white !important; color: #b400ff !important; font-weight: 700; border: 2px solid white !important; box-shadow: 0 4px 12px rgba(0,0,0,0.1); opacity: 0.9; padding: 0.5rem 1rem; border-radius: 20px 4px 20px 4px; text-decoration: none;">Library</a>
+        </div>
+        <h1>Access & Pricing</h1>
+        <p class="tagline">
+            Healthcare should be accessible — not locked behind a paywall.
+        </p>
+
+        <div class="card">
+            <h2>100% Free Access</h2>
+            <p>
+                This platform does <span class="highlight">not use a subscription model</span>.
+                All essential health services are available without recurring payments.
+            </p>
+
+            <ul>
+                <li>✔ Mental Health & Reproductive Health support</li>
+                <li>✔ Hospital & Government-integrated services</li>
+                <li>✔ Appointment demos & doctor connect</li>
+                <li>✔ Multilingual, nationwide accessibility</li>
+                <li>✔ Inclusive, gender-neutral design</li>
+            </ul>
+
+            <p class="note">
+                Optional paid products may be available through the Health Shopping Library
+                (such as wellness items or future wearable devices), but core healthcare
+                services will always remain free.
+            </p>
+
+            <a href="home.html" class="btn">Continue to Home</a>
+        </div>
+    </div>
+
+</body>
+
+</html>

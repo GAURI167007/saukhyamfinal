@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Menstrual & Wellness | Saukhyam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <header class="hero-section text-center">
+        <div class="logo-wrapper">
+            <img src="{{ url_for('static', filename='images/Logo.jpeg') }}" class="app-logo" alt="Saukhyam Logo">
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">Menstrual Wellness</h1>
+            <p class="hero-tagline">Understanding your cycle, embracing your health.</p>
+        </div>
+        <nav
+            style="position: absolute; top: 2rem; right: 2rem; left: auto; margin: 0; background: transparent !important; box-shadow: none !important;">
+            <a href="{{ url_for('home') }}"
+                style="background: white !important; color: #b400ff !important; font-weight: 700; border: 2px solid white !important; box-shadow: 0 4px 12px rgba(0,0,0,0.1); opacity: 0.9; margin-right: 1rem; border-radius: 20px 4px 20px 4px; padding: 0.5rem 1rem; text-decoration: none;">Home</a>
+            <a href="{{ url_for('library') }}"
+                style="background: white !important; color: #b400ff !important; font-weight: 700; border: 2px solid white !important; box-shadow: 0 4px 12px rgba(0,0,0,0.15); opacity: 1; border-radius: 20px 4px 20px 4px; padding: 0.5rem 1rem; text-decoration: none;">Library</a>
+        </nav>
+    </header>
+    <main class="container" style="max-width: 1200px; margin: 2rem auto; padding: 0 1.25rem;">
+
+        <div class="two-col-layout" style="display: flex; flex-wrap: wrap; gap: 2rem;">
+
+            <!-- Left Column -->
+            <div style="flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 2rem;">
+
+                <!-- Cycle Tracker -->
+                <section class="card">
+                    <h3>Cycle Tracker</h3>
+                    <p>Log your dates to predict your next period and ovulation.</p>
+
+                    <div id="trackerForm">
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Last Period Start
+                                Date</label>
+                            <input type="date" id="lastPeriod" required
+                                style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border);">
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Average Cycle Length
+                                (Days)</label>
+                            <input type="number" id="cycleLength" min="20" max="45" value="28"
+                                style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border);">
+                        </div>
+
+                        <button onclick="calculateCycle()" class="button" style="width: 100%;">Track My Cycle</button>
+                        <p style="font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem;">*Data is stored locally
+                            for privacy.</p>
+                    </div>
+
+                    <!-- Results Section (Hidden by default) -->
+                    <div id="cycleResults"
+                        style="display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+                        <div
+                            style="background: #f0fdf4; padding: 1rem; border-radius: 8px; border: 1px solid #bbf7d0; margin-bottom: 1rem;">
+                            <strong style="display: block; color: #166534; font-size: 0.9rem;">Next Period
+                                Predicted:</strong>
+                            <span id="nextPeriodDate"
+                                style="font-size: 1.2rem; font-weight: 700; color: #15803d;">--</span>
+                        </div>
+                        <div style="background: #fff7ed; padding: 1rem; border-radius: 8px; border: 1px solid #fed7aa;">
+                            <strong style="display: block; color: #9a3412; font-size: 0.9rem;">Estimated
+                                Ovulation:</strong>
+                            <span id="ovulationDate"
+                                style="font-size: 1.2rem; font-weight: 700; color: #c2410c;">--</span>
+                        </div>
+                        <button onclick="resetTracker()"
+                            style="background: transparent; border: none; color: var(--muted); text-decoration: underline; font-size: 0.9rem; margin-top: 1rem; cursor: pointer;">Recalculate</button>
+                    </div>
+                </section>
+
+                <!-- Shop Promo -->
+                <section class="card">
+                    <h3>Sustainable Essentials</h3>
+                    <p>Discover eco-friendly pads, cups, and pain relief patches.</p>
+                    <div style="margin-top: 1rem; text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">🛍️</div>
+                        <a href="{{ url_for('shopping') }}" class="btn btn-primary">Visit Shop</a>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Right Column -->
+            <div style="flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 2rem;">
+
+                <!-- Hygiene Guide -->
+                <section class="card">
+                    <h3>Menstrual Hygiene Guide</h3>
+                    <p>Essential tips for a healthy and comfortable cycle.</p>
+                    <ul style="list-style: none; padding: 0; margin-top: 1rem;">
+                        <li style="margin-bottom: 0.8rem; display: flex; align-items: start; gap: 0.5rem;">
+                            <span style="color: var(--primary);">✔</span>
+                            Change pads/tampons every 4-6 hours.
+                        </li>
+                        <li style="margin-bottom: 0.8rem; display: flex; align-items: start; gap: 0.5rem;">
+                            <span style="color: var(--primary);">✔</span>
+                            Wash intimate areas with water only.
+                        </li>
+                        <li style="margin-bottom: 0.8rem; display: flex; align-items: start; gap: 0.5rem;">
+                            <span style="color: var(--primary);">✔</span>
+                            Stay hydrated and eat iron-rich foods.
+                        </li>
+                        <li style="display: flex; align-items: start; gap: 0.5rem;">
+                            <span style="color: var(--primary);">✔</span>
+                            Track discharge changes regularly.
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Common Symptoms -->
+                <section class="card">
+                    <h3>Symptom Comparison</h3>
+                    <p>Is your pain normal? Know when to seek help.</p>
+                    <div style="margin-top: 1rem;">
+                        <div style="margin-bottom: 1rem;">
+                            <strong>Normal:</strong> Mild cramps, bloating, mood swings, breast tenderness.
+                        </div>
+                        <div>
+                            <strong>See a Doctor:</strong> Extreme pain, heavy bleeding (>1 pad/hr), periods >7 days.
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <a href="{{ url_for('doctorsconnect') }}" class="button-outline"
+                                style="width: 100%; text-align: center;">Consult a Doctor</a>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        function calculateCycle() {
+            const lastPeriodInput = document.getElementById('lastPeriod').value;
+            const cycleLengthInput = document.getElementById('cycleLength').value;
+
+            if (!lastPeriodInput || !cycleLengthInput) {
+                alert("Please enter both dates to track.");
+                return;
+            }
+
+            const lastPeriodDate = new Date(lastPeriodInput);
+            const cycleLength = parseInt(cycleLengthInput);
+
+            // Calculate Next Period
+            const nextPeriodDate = new Date(lastPeriodDate);
+            nextPeriodDate.setDate(lastPeriodDate.getDate() + cycleLength);
+
+            // Calculate Ovulation (typically 14 days before next period)
+            const ovulationDate = new Date(nextPeriodDate);
+            ovulationDate.setDate(nextPeriodDate.getDate() - 14);
+
+            // Format dates
+            const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
+
+            document.getElementById('nextPeriodDate').innerText = nextPeriodDate.toLocaleDateString('en-US', options);
+            document.getElementById('ovulationDate').innerText = ovulationDate.toLocaleDateString('en-US', options);
+
+            // Toggle UI
+            document.getElementById('trackerForm').style.display = 'none';
+            document.getElementById('cycleResults').style.display = 'block';
+        }
+
+        function resetTracker() {
+            document.getElementById('trackerForm').style.display = 'block';
+            document.getElementById('cycleResults').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>

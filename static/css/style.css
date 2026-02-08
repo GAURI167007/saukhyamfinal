@@ -1,0 +1,702 @@
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;700;800&family=Martel:wght@400;800&display=swap');
+
+/* ... (keep existing root vars) ... */
+
+/* ... (Logo Wrapper Adjustment) ... */
+/* Logo Wrapper Consolidated below with Header styles */
+
+/* ... (Hero Typography Updates) ... */
+
+.hero-title {
+    font-family: 'Playfair Display', serif;
+    /* Serif Font */
+    font-size: 6rem;
+    font-weight: 800;
+    color: #2E021F;
+    text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.5);
+    margin-bottom: 0.5rem;
+}
+
+.hero-sanskrit {
+    font-family: 'Martel', serif;
+    /* Devanagari Serif Font */
+    font-size: 2.5rem;
+    color: #4A0E35;
+    margin-bottom: 0.5rem;
+    font-weight: 800;
+    /* Bolder for clarity */
+}
+
+.hero-tagline {
+    font-family: 'Playfair Display', serif;
+    /* Serif Font */
+    font-size: 1.8rem;
+    color: #8B0000;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+:root {
+    /* Color Palette - "Saukhyam" (Well-being) Theme - Vibrant Pink/Violet Edition */
+    --primary: #D9008F;
+    /* Vibrant Magenta */
+    --primary-dark: #9E0065;
+    /* Deep Magenta */
+    --secondary: #8B5CF6;
+    /* Bright Violet */
+    --accent: #FF0055;
+    /* Hot Pink/Red */
+    --background: #FFF0F5;
+    /* Lavender Blush */
+    --surface: #FFFFFF;
+    --text-main: #2E021F;
+    /* Very Dark Pink/Purple (High Contrast) */
+    --text-muted: #86195E;
+    /* Muted Magenta */
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #FF00CC 0%, #AA00FF 100%);
+    /* Neon Pink to Purple */
+    --gradient-bg: linear-gradient(135deg, #FFF0F5 0%, #F3E5F5 100%);
+    --glass-bg: rgba(255, 255, 255, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.8);
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(217 0 143 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(217 0 143 / 0.15),
+        0 2px 4px -2px rgb(217 0 143 / 0.15);
+    --shadow-lg: 0 10px 15px -3px rgb(217 0 143 / 0.15),
+        0 4px 6px -4px rgb(217 0 143 / 0.15);
+    --shadow-xl: 0 20px 25px -5px rgb(217 0 143 / 0.2),
+        0 8px 10px -6px rgb(217 0 143 / 0.2);
+
+    /* Radius */
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.5rem;
+}
+
+/* Global Reset */
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--text-main);
+    line-height: 1.6;
+    min-height: 100vh;
+    font-size: 1.25rem;
+    text-align: center;
+    /* Animated Background */
+    background: linear-gradient(-45deg, #ffe6fa, #e0c3fc, #ffe4e1, #ffffff);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Floating Shapes Background Animation */
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(217, 0, 143, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+    z-index: -1;
+    animation: floatShapes 20s infinite alternate;
+}
+
+body::before {
+    top: -50px;
+    left: -100px;
+}
+
+body::after {
+    bottom: -50px;
+    right: -100px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+    animation-delay: -10s;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes floatShapes {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(50px, 100px) scale(1.2);
+    }
+
+    100% {
+        transform: translate(-50px, 50px) scale(1);
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Outfit', sans-serif;
+    color: var(--text-main);
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    /* Explicitly center headings */
+}
+
+h1 {
+    font-weight: 800;
+    font-size: 5rem;
+    color: #000000;
+    /* Pure Black for max contrast */
+    margin-bottom: 0.5rem;
+}
+
+/* Hero Section Styles (Ribbon Header) */
+/* Hero Section Styles (Ribbon Header - Full View) */
+.hero-section,
+header {
+    padding: 2rem 2rem 6rem 2rem;
+    /* Thicker bottom */
+    position: relative;
+    background-image: url('../images/Bg.jpeg') !important;
+    background-size: 100% 100%;
+    /* Compress to fit entire image */
+    background-repeat: no-repeat;
+    background-position: center;
+
+    /* Common: Lighten background (Lighter Image: 0.4 opacity) */
+    background-color: rgba(0, 0, 0, 0.15) !important;
+    background-blend-mode: overlay !important;
+    opacity: 1 !important;
+    color: #000000 !important;
+    /* Force Black Text Globally */
+
+    /* Global Header Drop */
+    margin-top: 15vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+
+    /* Ensure image covers the area without distortion */
+    background-size: cover !important;
+    background-position: center center !important;
+}
+
+/* Special Styles for Home Page Hero (Thicker + Margins) */
+.hero-section {
+    margin-top: 15vh;
+    /* Matches global drop */
+    min-height: 80vh;
+    margin-bottom: 5rem;
+}
+
+/* Scoped to hero section to avoid conflict */
+.hero-section .logo-wrapper,
+.logo-wrapper {
+    position: absolute;
+    top: -120px;
+    /* Pull Logo OUT of Header */
+    left: 2rem;
+
+    width: 100px;
+    height: 100px;
+
+    border-radius: 50%;
+    overflow: hidden;
+
+    background: #ffffff;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+
+    z-index: 200;
+}
+
+/* Home Page Logo - Optional Override if we want it bigger */
+.hero-section .logo-wrapper {
+    width: 120px;
+    height: 120px;
+}
+
+.app-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Scale up to zoom in and crop out the white border/background */
+    transform: scale(1.35);
+    transition: transform 0.3s ease;
+}
+
+.logo-wrapper:hover .app-logo {
+    transform: scale(1.45) rotate(10deg);
+}
+
+/* Overlay to ensure text readability if pattern is busy */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 240, 245, 0.4);
+    /* Light pink overlay */
+    z-index: 0;
+    pointer-events: none;
+}
+
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 6rem;
+    font-weight: 800;
+    color:#3c0328;
+    /* Very Dark */
+    text-shadow: 0px 0px 0px rgba(255, 255, 255, 0);
+    margin-bottom: 0.5rem;
+}
+
+.hero-sanskrit {
+    font-family: 'Martel', serif;
+    font-size: 2.5rem;
+    color: #3c0328;
+    /* Dark Contrast */
+    margin-bottom: 0.5rem;
+    font-weight: 800;
+}
+
+.hero-tagline {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: #360123;
+    /* Dark Contrast */
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+h2 {
+    font-size: 2.5rem;
+}
+
+h3 {
+    font-size: 1.75rem;
+}
+
+p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+/* Layout Containers */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+}
+
+/* Glassmorphism Card Style */
+/* Glassmorphism / Dialogue Box Card Style */
+.card {
+    background: var(--surface);
+    /* Solid white/surface to look like a box */
+    border: 3px solid var(--secondary);
+    /* Thicker border */
+    /* distinct border */
+
+    /* Artsy Shape: Asymmetric/Organic corners */
+    border-radius: 60px 20px 60px 20px;
+
+    padding: 3.5rem;
+    /* Larger Padding */
+    box-shadow: var(--shadow-md);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Bouncy 'pop' transition */
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    /* Pop up and slight scale */
+    box-shadow: var(--shadow-xl);
+    border-color: var(--primary);
+    /* Highlight border on hover */
+    z-index: 10;
+}
+
+/* Optional: Add a subtle glow or accent on hover */
+.card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(217, 0, 143, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.card:hover::after {
+    opacity: 1;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.btn-primary {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.4);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 10px 15px -3px rgba(14, 165, 233, 0.5);
+    transform: translateY(-2px);
+    color: white;
+    /* Ensure text stays white */
+}
+
+/* Navbar (Generic styles if existing nav exists or to guide structure) */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: transparent;
+    backdrop-filter: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    box-shadow: none;
+}
+
+nav ul {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+nav a {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+nav a:hover,
+nav a.active {
+    color: var(--primary);
+}
+
+/* Form Styles */
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #E2E8F0;
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.8);
+    transition: border-color 0.2s;
+    margin-bottom: 1rem;
+    font-family: inherit;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+}
+
+/* Utility Classes */
+.text-center {
+    text-align: center;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+.mb-4 {
+    margin-bottom: 1rem;
+}
+
+.grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.grid-cols-2 {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+main {
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* Team Section Styles */
+.team-section {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed var(--glass-border);
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.team-member {
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s ease;
+}
+
+.team-member:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    background: white;
+}
+
+.team-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1.5rem;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    /* Ensure image stays circular */
+}
+
+img.team-avatar {
+    object-fit: cover;
+    padding: 0;
+}
+
+.linkedin-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: #0077b5;
+    /* LinkedIn Blue */
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Contact & Support Section styles */
+
+/* Grid for the health cards */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+/* Icon circles inside cards */
+.icon-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.5rem;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover effect for cards */
+.hover-card:hover .icon-circle {
+    background: white;
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+}
+
+/* Outline button style (Contact link) */
+.button-outline {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.button-outline:hover {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 12px rgba(217, 0, 143, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Contact Page Specific Styles (Ported for reused components) */
+.contact-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.contact-item {
+    flex: 1 1 300px;
+    max-width: 500px;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(224, 214, 245, 0.5);
+    background: #fcfbff;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-align: left;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.contact-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary);
+}
+
+.contact-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.contact-phone {
+    background: #10b981;
+    color: white;
+}
+
+.contact-email {
+    background: var(--primary);
+    color: white;
+}
+
+.contact-helpline {
+    background: var(--accent);
+    color: white;
+}
+
+.contact-support {
+    background: #f59e0b;
+    color: white;
+}
+
+.contact-details h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+    color: var(--text-main);
+}
+
+.contact-details p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 0.2rem;
+}
+
+.contact-details a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.contact-details a:hover {
+    text-decoration: underline;
+}

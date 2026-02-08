@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Saukhyam – Contacts & Support</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        :root {
+            --primary: #9b4dca;
+            --primary-dark: #7a32a6;
+            --accent: #ff6f61;
+            --success: #10b981;
+            --bg: #f8f5ff;
+            --text: #222222;
+            --muted: #666666;
+            --card-bg: #ffffff;
+            --border: #e0d6f5;
+            --radius: 12px;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top left, #fbe9ff, #f3f0ff 40%, #ffffff 80%);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+
+
+        .brand {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-wrapper {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: red;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        nav {
+            justify-content: center;
+            flex-wrap: wrap;
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        nav a {
+            background: white !important;
+            color: #b400ff !important;
+            border: 2px solid white !important;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: inline-block;
+            font-size: 0.9rem;
+            /* Override specificity issues */
+            backdrop-filter: none;
+        }
+
+        nav a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background: #f0f0f0 !important;
+        }
+
+        main {
+            max-width: 1000px;
+            /* Standardize width */
+            margin: 2rem auto;
+            padding: 0 1.25rem;
+        }
+    </style>
+
+    <style>
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            /* Much bigger padding */
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 2.5rem;
+        }
+
+        .card h2 {
+            font-size: 2.5rem;
+            /* Match Doctor Connect/AI Insights size */
+            margin-bottom: 1rem;
+            color: #444;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .card p.sub {
+            font-size: 1.2rem;
+            color: var(--muted);
+            margin-bottom: 2.5rem;
+            max-width: 800px;
+            text-align: center;
+            /* Force center alignment */
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.7rem;
+            border-radius: 999px;
+            background: #f4ecff;
+            color: var(--primary-dark);
+            margin-bottom: 0.6rem;
+        }
+
+        .contact-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .contact-item {
+            flex: 1 1 350px;
+            max-width: 500px;
+            /* Made bigger */
+            padding: 1.5rem;
+            /* More padding */
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: #fcfbff;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .contact-phone {
+            background: #10b981;
+            color: white;
+        }
+
+        .contact-email {
+            background: var(--primary);
+            color: white;
+        }
+
+        .contact-helpline {
+            background: var(--accent);
+            color: white;
+        }
+
+        .contact-support {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .contact-details h3 {
+            font-size: 0.95rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .contact-details p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-bottom: 0.1rem;
+        }
+
+        .contact-details a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .contact-details a:hover {
+            text-decoration: underline;
+        }
+
+        form {
+            display: grid;
+            gap: 0.8rem;
+            max-width: 500px;
+            margin: 0 auto;
+            /* Center the form */
+        }
+
+        label {
+            font-size: 1rem;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        input,
+        textarea,
+        select {
+            padding: 0.85rem 1rem;
+            border: 1px solid #d7ccee;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px #9b4dca22;
+        }
+
+        .inline-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+        }
+
+        @media (max-width: 600px) {
+            .inline-inputs {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .helplines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .helpline-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .helpline-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .helpline-number {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .team-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px dashed var(--border);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .team-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary);
+            margin: 0 auto 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        footer {
+            max-width: 1040px;
+            margin: 0 auto 1.5rem;
+            padding: 0 1.25rem;
+            font-size: 0.75rem;
+            color: var(--muted);
+            text-align: center;
+        }
+    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <style>
+        header {
+            /* background: linear-gradient(135deg, #b400ff, #ff007f); Removed */
+            /* color: white; Removed */
+            padding: 1rem 1.25rem;
+            position: relative;
+            z-index: 100;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            /* Override possible previous defaults */
+            display: block;
+        }
+
+        .brand {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-wrapper {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: red;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        nav {
+            justify-content: center;
+            flex-wrap: wrap;
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        nav a {
+            background: white !important;
+            color: #b400ff !important;
+            border: 2px solid white !important;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: inline-block;
+            font-size: 0.9rem;
+            /* Override specificity issues */
+            backdrop-filter: none;
+        }
+
+        nav a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background: #f0f0f0 !important;
+        }
+
+        main {
+            max-width: 1000px;
+            /* Standardize width */
+            margin: 2rem auto;
+            padding: 0 1.25rem;
+        }
+    </style>
+    <header>
+        <div class="brand">
+            <div class="logo-wrapper">
+                <img src="{{ url_for('static', filename='images/Logo.jpeg') }}"
+                    style="width: 100%; height: 100%; object-fit: cover; object-position: center; mix-blend-mode: multiply;"
+                    alt="S">
+            </div>
+            <div>
+                <h1
+                    style="color: #ffffff; font-size: 3.5rem; font-weight: 700; font-family: 'Playfair Display', serif; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); letter-spacing: 1px;">
+                    Contacts & Support</h1>
+                <p style="color: #ffe6fa; font-size: 1.2rem; font-weight: 500;">
+                    We are here for you 24/7.
+                </p>
+            </div>
+        </div>
+        <nav
+            style="position: absolute; top: 2rem; right: 2rem; left: auto; margin: 0; background: transparent !important; box-shadow: none !important;">
+            <a href="{{ url_for('home') }}"
+                style="background: white !important; color: #b400ff !important; font-weight: 700; border: 2px solid white !important; box-shadow: 0 4px 12px rgba(0,0,0,0.1); opacity: 1; border-radius: 20px 4px 20px 4px; padding: 0.5rem 1rem; text-decoration: none; margin-right: 1rem;">Home</a>
+            <a href="{{ url_for('library') }}"
+                style="background: white !important; color: #b400ff !important; font-weight: 700; border: 2px solid white !important; box-shadow: 0 4px 12px rgba(0,0,0,0.1); opacity: 0.9; border-radius: 20px 4px 20px 4px; padding: 0.5rem 1rem; text-decoration: none;">Library</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Quick Contacts -->
+        <section class="card">
+            <span class="tag">24/7 Emergency</span>
+            <h2>Need help now?</h2>
+            <p class="sub">Direct lines for medical emergencies, technical support, and government helplines.</p>
+
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <div class="contact-icon contact-phone">📞</div>
+                    <div class="contact-details">
+                        <h3>Medical Emergency</h3>
+                        <p>24/7 ambulance & hospital</p>
+                        <a href="tel:108">108</a>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon contact-email">✉️</div>
+                    <div class="contact-details">
+                        <h3>Saukhyam Support</h3>
+                        <p>Technical & app issues</p>
+                        <a href="mailto:support@saukhyam.in">support@saukhyam.in</a>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon contact-helpline">🆘</div>
+                    <div class="contact-details">
+                        <h3>Tele-MANAS</h3>
+                        <p>Mental health crisis</p>
+                        <a href="tel:14416">14416</a>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon contact-support">💬</div>
+                    <div class="contact-details">
+                        <h3>Live Chat</h3>
+                        <p>Mon-Sat 9AM-7PM</p>
+                        <a href="#" onclick="alert('Chat opening... (Phase 2 feature)')">Start chat</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Government Helplines -->
+        <section class="card">
+            <span class="tag">National Helplines</span>
+            <h2>Government health services</h2>
+            <p class="sub">Free services aligned with your Saukhyam journey (JSY, PMSMA, SUMAN).</p>
+
+            <div class="helplines-grid">
+                <div class="helpline-card">
+                    <h3>Janani Suraksha Yojana</h3>
+                    <span class="helpline-number">1800-11-4477</span>
+                    <p>Maternal cash assistance</p>
+                </div>
+
+                <div class="helpline-card">
+                    <h3>Tele-MANAS</h3>
+                    <span class="helpline-number">14416</span>
+                    <p>Mental health support</p>
+                </div>
+
+                <div class="helpline-card">
+                    <h3>e-Sanjeevani</h3>
+                    <span class="helpline-number">1800-890-1801</span>
+                    <p>Free teleconsultation</p>
+                </div>
+
+                <div class="helpline-card">
+                    <h3>104 Health Helpline</h3>
+                    <span class="helpline-number">104</span>
+                    <p>General health queries</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Support Form -->
+        <section class="card">
+            <span class="tag">Get personalized help</span>
+            <h2>Submit a support request</h2>
+            <p class="sub">Our team responds within 24 hours. For emergencies, use the helplines above.</p>
+
+            <form onsubmit="handleSubmit(event); return false;">
+                <div class="inline-inputs">
+                    <div>
+                        <label for="name">Full name</label>
+                        <input id="name" type="text" required />
+                    </div>
+                    <div>
+                        <label for="phone">Phone</label>
+                        <input id="phone" type="tel" required />
+                    </div>
+                </div>
+
+                <div>
+                    <label for="email">Email</label>
+                    <input id="email" type="email" />
+                </div>
+
+                <div>
+                    <label for="category">Issue category</label>
+                    <select id="category" required>
+                        <option value="">Select one</option>
+                        <option>Health tracker not saving</option>
+                        <option>Doctor appointment issue</option>
+                        <option>AI insights unclear</option>
+                        <option>Shopping/delivery problem</option>
+                        <option>Wearable sync failed</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="message">Describe your issue</label>
+                    <textarea id="message" rows="4" required
+                        placeholder="Be specific about what happened and when..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-primary">Send request</button>
+            </form>
+        </section>
+
+        <!-- RunTime Terrors Team -->
+        <section class="card team-section">
+            <h2>Meet RunTime Terrors</h2>
+            <p class="sub">INNOVIT 2026 • Theme 3: MedTech BioTech HealthTech</p>
+
+            <div class="team-grid">
+                <div class="team-member">
+                    <img src="{{ url_for('static', filename='images/Gauri Nandana M.jpeg') }}"
+                    class="team-avatar" alt="GN">
+                    <div class="team-avatar">GN</div>
+                    <h3>Gauri Nandana M.</h3>
+                    <p>Leader • 25BAI10053<br>9310200910</p>
+                </div>
+
+                <div class="team-member">
+                    <img src="{{ url_for('static', filename='images/Vaishnavi S Nair.jpeg') }}"
+                        class="team-avatar" alt="VSN">
+                    <h3>Vaishnavi S Nair</h3>
+                    <p>Developer • 25BCE10498</p>
+                    <a href="#" class="linkedin-link">LinkedIn Profile ↗</a>
+                </div>
+
+                <div class="team-member">
+                    <img src="{{ url_for('static', filename='images/Gowri Ramesh.jpeg') }}"
+                    class="team-avatar" alt="GR">
+                    <div class="team-avatar">GR</div>
+                    <h3>Gowri Ramesh</h3>
+                    <p>Designer • 25BCY10100</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <span>© 2026 Saukhyam • RunTime Terrors • INNOVIT 2026</span>
+    </footer>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert("Thank you! Your support request has been logged. We'll respond within 24 hours to your email/phone.");
+
+            // In production, this would POST to Flask /api/support
+            const formData = new FormData(event.target);
+            console.log('Support ticket:', Object.fromEntries(formData));
+
+            event.target.reset();
+        }
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', e => {
+                const targetId = link.getAttribute('href').slice(1);
+                const target = document.getElementById(targetId);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

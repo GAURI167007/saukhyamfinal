@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Saukhyam – Health Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .success-message {
+            display: none;
+            color: #1f7a4d;
+            background: #e7f9f0;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: 600;
+            border: 1px solid #bceacf;
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+    <style>
+        :root {
+            --primary: #9b4dca;
+            --primary-dark: #7a32a6;
+            --accent: #ff6f61;
+            --bg: #f8f5ff;
+            --text: #222222;
+            --muted: #666666;
+            --card-bg: #ffffff;
+            --border: #e0d6f5;
+            --radius: 12px;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top left, #fbe9ff, #f3f0ff 40%, #ffffff 80%);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            /* Inherit from style.css */
+            padding: 1rem 1.25rem;
+            position: relative;
+            z-index: 100;
+            text-align: center;
+        }
+
+        .brand {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 3.5rem;
+        }
+
+        .logo-wrapper {
+            /* Inherit from style.css */
+            border: none !important;
+            background: transparent !important;
+        }
+
+        @media(max-width: 768px) {
+            .logo-wrapper {
+                width: 70px;
+                height: 70px;
+                top: 0.8rem;
+                left: 0.8rem;
+            }
+        }
+
+        .header-title-text {
+            /* Inherit global styles */
+            font-size: 2.8rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 1px;
+            color: #ffffff !important;
+        }
+
+        nav {
+            justify-content: center;
+            flex-wrap: wrap;
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        nav a {
+            background: white !important;
+            color: #b400ff !important;
+            border: 2px solid white !important;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 0.9rem;
+        }
+
+        nav a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background: #f0f0f0 !important;
+        }
+
+        main {
+            max-width: 1400px;
+            /* Increased to fit wider cards */
+            margin: 2rem auto 3rem;
+            padding: 0 1.25rem;
+            display: grid;
+            /* Adjusted ratio: Left box slightly smaller/shifted left, Right box (Patterns) much wider */
+            grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.6fr);
+            gap: 2rem;
+        }
+
+        @media (max-width: 860px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* .card styles removed to inherit global "Larger & Artsy" styles from style.css */
+
+        .btn-primary {
+            display: inline-block;
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 0.6rem 1.1rem;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 0.4rem;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-outline {
+            display: inline-block;
+            background: transparent;
+            color: var(--primary-dark);
+            border-radius: 999px;
+            border: 1px solid var(--primary);
+            padding: 0.5rem 1.05rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .phase-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .phase-tab {
+            padding: 0.45rem 0.8rem;
+            font-size: 0.8rem;
+            border-radius: 999px;
+            border: 1px solid #e0d6f5;
+            background: #f7f2ff;
+            color: var(--muted);
+            cursor: pointer;
+        }
+
+        .phase-tab.active {
+            border-color: var(--primary);
+            color: var(--primary-dark);
+            background: #efe3ff;
+            font-weight: 500;
+        }
+
+        form {
+            margin-top: 0.6rem;
+            display: grid;
+            gap: 0.6rem;
+        }
+
+        label {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.55rem 0.65rem;
+            border-radius: 8px;
+            border: 1px solid #d7ccee;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px #9b4dca22;
+        }
+
+        .inline-inputs {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.6rem;
+        }
+
+        @media (max-width: 480px) {
+            .inline-inputs {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.3rem;
+        }
+
+        .pill {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.65rem;
+            border-radius: 999px;
+            background: #fff5f4;
+            color: #c2493d;
+        }
+
+        .mini-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 0.4rem;
+            margin-bottom: 0.2rem;
+        }
+
+        /* Right side: summary + streaks */
+        .summary-item {
+            margin-top: 0.6rem;
+            padding: 0.6rem 0.75rem;
+            border-radius: 10px;
+            border: 1px dashed #e0d6f5;
+            background: #fcfbff;
+            font-size: 0.85rem;
+        }
+
+        .summary-label {
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        .summary-value {
+            font-size: 0.98rem;
+            font-weight: 600;
+        }
+
+        .streak-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
+        }
+
+        .streak-pill {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 999px;
+            background: #e7f9f0;
+            color: #1f7a4d;
+        }
+
+        .history-list {
+            list-style: none;
+            font-size: 0.82rem;
+            margin-top: 0.4rem;
+        }
+
+        .history-list li+li {
+            margin-top: 0.25rem;
+        }
+
+        footer {
+            max-width: 1040px;
+            margin: 0 auto 1.5rem;
+            padding: 0 1.25rem;
+            font-size: 0.75rem;
+            color: var(--muted);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+
+        footer a {
+            color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <header>
+        <div class="logo-wrapper">
+            <img src="{{ url_for('static', filename='images/Logo.jpeg') }}" class="app-logo" alt="Saukhyam logo">
+        </div>
+        <div class="brand">
+            <div>
+                <h1 class="header-title-text">My Health Tracker</h1>
+                <p style="color: #ffffff; font-size: 1.1rem; font-weight: 500;">
+                    Securely track your cycle, pregnancy, and vitals.
+                </p>
+            </div>
+        </div>
+        <nav
+            style="position: absolute; top: 2rem; right: 2rem; left: auto; margin: 0; background: transparent !important; box-shadow: none !important;">
+            <a href="{{ url_for('home') }}"
+                style="background: white !important; color: #b400ff !important; font-weight: 700; border: 2px solid white !important; box-shadow: 0 4px 12px rgba(0,0,0,0.15); opacity: 5; border-radius: 20px 4px 20px 4px; padding: 0.5rem 1rem; text-decoration: none;">Home</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Left: Daily logging -->
+        <section class="card" id="today">
+            <span class="tag">Daily check‑in</span>
+            <h2>Update today&apos;s health log</h2>
+            <p class="sub">
+                Choose your current phase and add symptoms, mood, and vitals. Over time, this builds a structured
+                history for deeper insights instead of just date predictions.[file:1]
+            </p>
+
+            <div class="phase-tabs">
+                <button class="phase-tab active" type="button">Menstrual phase</button>
+                <button class="phase-tab" type="button">Pregnancy</button>
+                <button class="phase-tab" type="button">Post‑pregnancy</button>
+            </div>
+
+            <form id="health-log-form">
+                <div class="inline-inputs">
+                    <div>
+                        <label for="log-date">Date</label>
+                        <input id="log-date" type="date" />
+                    </div>
+                    <div>
+                        <label for="log-time">Time</label>
+                        <input id="log-time" type="time" />
+                    </div>
+                </div>
+
+                <div class="inline-inputs">
+                    <div>
+                        <label for="mood">Mood</label>
+                        <select id="mood">
+                            <option>Stable</option>
+                            <option>Low / overwhelmed</option>
+                            <option>Anxious</option>
+                            <option>Energetic</option>
+                            <option>Neutral</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="pain">Pain level</label>
+                        <select id="pain">
+                            <option>No pain</option>
+                            <option>Mild</option>
+                            <option>Moderate</option>
+                            <option>Severe</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="inline-inputs">
+                    <div>
+                        <label for="bleeding">Flow / discharge</label>
+                        <select id="bleeding">
+                            <option>Not applicable today</option>
+                            <option>Spotting</option>
+                            <option>Light</option>
+                            <option>Moderate</option>
+                            <option>Heavy</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="sleep">Sleep (hours)</label>
+                        <input id="sleep" type="number" min="0" max="24" step="0.5" placeholder="e.g., 7.5" />
+                    </div>
+                </div>
+
+                <label for="symptoms">Physical symptoms</label>
+                <input id="symptoms" type="text"
+                    placeholder="Eg: cramps, nausea, bloating, breast tenderness, headaches..." />
+
+                <label for="notes">Mental health notes</label>
+                <textarea id="notes" rows="3"
+                    placeholder="Eg: feeling unusually anxious, intrusive thoughts, difficulty bonding with baby..."></textarea>
+
+                <div class="mini-title">Optional vitals</div>
+                <div class="inline-inputs">
+                    <div>
+                        <label for="weight">Weight (kg)</label>
+                        <input id="weight" type="number" step="0.1" placeholder="Eg: 60.5" />
+                    </div>
+                    <div>
+                        <label for="bp">Blood pressure</label>
+                        <input id="bp" type="text" placeholder="Eg: 110/70" />
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">Save today&apos;s log</button>
+
+                <div id="success-msg" class="success-message">
+                    ✅ Health log saved successfully! Your patterns have been updated.
+                </div>
+            </form>
+
+            <div class="pill-row">
+                <span class="pill">Designed for India‑specific patterns and lifestyles</span>
+                <span class="pill">Structured data ready for future AI‑based insights</span>
+            </div>
+        </section>
+
+        <!-- Right: Summary, streaks, and history preview -->
+        <section class="card" id="history">
+            <span class="tag">Overview</span>
+            <h2>Your current patterns</h2>
+            <p class="sub">
+                This summary will update as more logs are stored in the database and can be shared
+                with doctors through the connected platform.
+            </p>
+
+            <div class="summary-item">
+                <div class="summary-label">Mood & Symptom Trends (Pie Chart)</div>
+                <div style="height: 200px; width: 100%; display: flex; justify-content: center;">
+                    <canvas id="moodChart"></canvas>
+                </div>
+            </div>
+
+            <div class="summary-item">
+                <div class="summary-label">Cycle & Energy Levels (Line Graph)</div>
+                <div style="height: 200px; width: 100%;">
+                    <canvas id="cycleChart"></canvas>
+                </div>
+            </div>
+
+            <div class="summary-item">
+                <div class="summary-label">Sleep vs Stress (Heatmap / Bar)</div>
+                <div style="height: 200px; width: 100%;">
+                    <canvas id="stressChart"></canvas>
+                </div>
+            </div>
+
+            <div class="summary-item" id="insights">
+                <div class="summary-label">Recent entries</div>
+                <ul class="history-list">
+                    <li>• No logs yet. Start by saving today&apos;s check‑in.</li>
+                    <li>• Once populated, you&apos;ll see a quick 7‑day preview here.</li>
+                    <li>• For detailed view, export data or share with your doctor via Saukhyam Doctors Connect.</li>
+                </ul>
+            </div>
+
+            <div style="margin-top: 0.7rem; font-size: 0.8rem; color: var(--muted);">
+                <strong>Data & privacy</strong><br />
+                Health logs are meant to be stored in secure, consent‑first infrastructure, with future support for
+                blockchain‑based auditing of any access or changes.[file:1]
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <span>© 2026 Saukhyam • RunTime Terrors</span>
+        <span>Health data tracking planned with SQLite + Firebase and scalable to wearables in later
+            phases.[file:1]</span>
+    </footer>
+
+    <script>
+        // Set today's date by default
+        document.getElementById('log-date').valueAsDate = new Date();
+
+        // Chart Instances
+        let moodChartInstance = null;
+        let cycleChartInstance = null;
+        let stressChartInstance = null;
+
+        // Function to render initial (empty/placeholder) charts
+        function renderCharts(update = false) {
+            const ctxMood = document.getElementById('moodChart').getContext('2d');
+            const ctxCycle = document.getElementById('cycleChart').getContext('2d');
+            const ctxStress = document.getElementById('stressChart').getContext('2d');
+
+            // Data for "Updated" state vs "Initial" state
+            const moodData = update ? [30, 20, 15, 35] : [10, 10, 10, 10]; // Happy, Anxious, Tired, Neutral
+            const cycleLabels = ['Day 1', 'Day 5', 'Day 10', 'Day 14', 'Day 20', 'Day 25', 'Day 28'];
+            const cycleData = update ? [3, 4, 6, 8, 7, 5, 4] : [0, 0, 0, 0, 0, 0, 0]; // Energy levels
+
+            // Destroy existing if updating
+            if (moodChartInstance) moodChartInstance.destroy();
+            if (cycleChartInstance) cycleChartInstance.destroy();
+            if (stressChartInstance) stressChartInstance.destroy();
+
+            // 1. Mood Pie Chart
+            moodChartInstance = new Chart(ctxMood, {
+                type: 'pie',
+                data: {
+                    labels: ['Stable', 'Anxious', 'Low', 'Energetic'],
+                    datasets: [{
+                        data: moodData,
+                        backgroundColor: ['#b400ff', '#ff007f', '#ff6f61', '#4bc0c0']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            // 2. Cycle Line Graph
+            cycleChartInstance = new Chart(ctxCycle, {
+                type: 'line',
+                data: {
+                    labels: cycleLabels,
+                    datasets: [{
+                        label: 'Energy Level',
+                        data: cycleData,
+                        borderColor: '#b400ff',
+                        tension: 0.4,
+                        fill: true,
+                        backgroundColor: 'rgba(180, 0, 255, 0.2)'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 10 } } }
+            });
+
+            // 3. Stress/Sleep Bar Chart
+            stressChartInstance = new Chart(ctxStress, {
+                type: 'bar',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Sleep (Hrs)',
+                        data: update ? [7, 6.5, 8, 5, 7.5, 9, 8] : [0, 0, 0, 0, 0, 0, 0],
+                        backgroundColor: '#4bc0c0'
+                    }, {
+                        label: 'Stress (1-10)',
+                        data: update ? [3, 5, 2, 8, 4, 1, 2] : [0, 0, 0, 0, 0, 0, 0],
+                        backgroundColor: '#ff6f61'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+            });
+        }
+
+        // Render empty charts initially
+        renderCharts(false);
+
+        // Handle Form Submit
+        document.getElementById('health-log-form').addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent actual server submit for demo
+
+            // 1. Show Success Message
+            const msg = document.getElementById('success-msg');
+            msg.style.display = 'block';
+
+            // 2. Update Charts (Simulate data update)
+            renderCharts(true);
+
+            // Hide message after 3 seconds
+            setTimeout(() => {
+                msg.style.display = 'none';
+            }, 5000);
+        });
+    </script>
+</body>
+
+</html>

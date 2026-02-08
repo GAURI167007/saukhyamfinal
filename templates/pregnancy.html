@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pregnancy Care | Saukhyam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <header class="hero-section text-center">
+        <div class="logo-wrapper">
+            <img src="{{ url_for('static', filename='images/Logo.jpeg') }}" class="app-logo" alt="Saukhyam Logo">
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">Pregnancy Care</h1>
+            <p class="hero-tagline">Supporting you through every trimester.</p>
+        </div>
+        <nav
+            style="position: absolute; top: 2rem; right: 2rem; left: auto; margin: 0; background: transparent !important; box-shadow: none !important;">
+            <a href="{{ url_for('home') }}"
+                style="background: white !important; color: #b400ff !important; font-weight: 700; border: 2px solid white !important; box-shadow: 0 4px 12px rgba(0,0,0,0.1); opacity: 0.9; margin-right: 1rem; border-radius: 20px 4px 20px 4px; padding: 0.5rem 1rem; text-decoration: none;">Home</a>
+            <a href="{{ url_for('library') }}"
+                style="background: white !important; color: #b400ff !important; font-weight: 700; border: 2px solid white !important; box-shadow: 0 4px 12px rgba(0,0,0,0.15); opacity: 1; border-radius: 20px 4px 20px 4px; padding: 0.5rem 1rem; text-decoration: none;">Library</a>
+        </nav>
+    </header>
+    <main class="container" style="max-width: 1200px; margin: 2rem auto; padding: 0 1.25rem;">
+
+        <div class="two-col-layout" style="display: flex; flex-wrap: wrap; gap: 2rem;">
+
+            <!-- Left Column: Tools -->
+            <div style="flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 2rem;">
+
+                <!-- Due Date Calculator -->
+                <section class="card">
+                    <h3>Due Date Calculator</h3>
+                    <p>Enter the first day of your last period (LMP) to estimate your due date.</p>
+                    <div style="margin-top: 1rem;">
+                        <input type="date" id="lmpInput" style="margin-bottom: 1rem;">
+                        <button onclick="calculateDueDate()" class="button" style="width: 100%;">Calculate Due
+                            Date</button>
+                    </div>
+                    <div id="dueDateResult"
+                        style="display: none; margin-top: 1.5rem; padding: 1rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px;">
+                        <strong style="display: block; color: #166534; font-size: 0.9rem;">Estimated Due Date:</strong>
+                        <span id="eddDate" style="font-size: 1.5rem; font-weight: 700; color: #15803d;">--</span>
+                        <p id="currentWeek" style="margin-top: 0.5rem; color: #166534; font-size: 0.9rem;">You are
+                            approximately <strong>-- weeks</strong> pregnant.</p>
+                    </div>
+                </section>
+
+                <!-- Kick Counter -->
+                <section class="card"
+                    style="background: linear-gradient(135deg, #fff0f6 0%, #ffffff 100%); border: 1px solid #ffd6e7;">
+                    <h3>Daily Kick Counter</h3>
+                    <p>Track your baby's movements. Aim for 10 kicks in 2 hours.</p>
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <div id="kickCount" style="font-size: 4rem; font-weight: 800; color: #d63384; line-height: 1;">0
+                        </div>
+                        <p style="color: var(--muted); margin-bottom: 1.5rem;">Kicks Today</p>
+                        <div style="display: flex; gap: 1rem; justify-content: center;">
+                            <button onclick="addKick()" class="btn btn-primary"
+                                style="padding: 1rem 2rem; font-size: 1.2rem;">+ Kick</button>
+                            <button onclick="resetKicks()" class="button-outline" style="padding: 1rem;">Reset</button>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Right Column: Guides -->
+            <div style="flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 2rem;">
+
+                <!-- Trimester Guide -->
+                <section class="card">
+                    <h3>Trimester Milestones</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+                        <div
+                            style="padding: 1rem; background: #fff; border: 1px solid var(--border); border-radius: 8px;">
+                            <strong style="color: var(--primary);">1st Trimester (Week 1-12)</strong>
+                            <p style="font-size: 0.9rem; margin-bottom: 0;">Baby's organs form. You may feel nausea and
+                                fatigue.</p>
+                        </div>
+                        <div
+                            style="padding: 1rem; background: #fff; border: 1px solid var(--border); border-radius: 8px;">
+                            <strong style="color: var(--primary);">2nd Trimester (Week 13-26)</strong>
+                            <p style="font-size: 0.9rem; margin-bottom: 0;">Baby grows hair and moves! "Golden period"
+                                for energy.</p>
+                        </div>
+                        <div
+                            style="padding: 1rem; background: #fff; border: 1px solid var(--border); border-radius: 8px;">
+                            <strong style="color: var(--primary);">3rd Trimester (Week 27-40)</strong>
+                            <p style="font-size: 0.9rem; margin-bottom: 0;">Baby gains weight. Preparing for labor.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Nutrition & Doctor -->
+                <section class="card">
+                    <h3>Healthy Pregnancy</h3>
+                    <ul style="list-style: none; padding: 0; margin-top: 1rem;">
+                        <li style="margin-bottom: 0.5rem;">💊 Take Folic Acid & Iron daily.</li>
+                        <li style="margin-bottom: 0.5rem;">🥗 Eat a rainbow of fruits/veggies.</li>
+                        <li style="margin-bottom: 1rem;">🚶‍♀️ Stay active with light walking/yoga.</li>
+                    </ul>
+                    <a href="{{ url_for('doctorsconnect') }}" class="button-outline"
+                        style="width: 100%; display: inline-block; text-align: center;">Consult Protocols & Doctors</a>
+                </section>
+
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Due Date Calculator
+        function calculateDueDate() {
+            const lmp = document.getElementById('lmpInput').value;
+            if (!lmp) {
+                alert("Please enter the first day of your last period.");
+                return;
+            }
+
+            const lmpDate = new Date(lmp);
+            const eddDate = new Date(lmpDate);
+            eddDate.setDate(lmpDate.getDate() + 280); // +40 weeks
+
+            // Calculate Current Week
+            const today = new Date();
+            const timeDiff = today - lmpDate;
+            const daysPregnant = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            const weeksPregnant = Math.floor(daysPregnant / 7);
+
+            const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('eddDate').innerText = eddDate.toLocaleDateString('en-US', options);
+            document.getElementById('currentWeek').innerHTML = `You are approximately <strong>${weeksPregnant} weeks</strong> pregnant.`;
+
+            document.getElementById('dueDateResult').style.display = 'block';
+        }
+
+        // Kick Counter
+        let kicks = 0;
+        function addKick() {
+            kicks++;
+            document.getElementById('kickCount').innerText = kicks;
+            // Simple animation
+            const countEl = document.getElementById('kickCount');
+            countEl.style.transform = "scale(1.2)";
+            setTimeout(() => countEl.style.transform = "scale(1)", 150);
+        }
+
+        function resetKicks() {
+            if (confirm("Start a new session?")) {
+                kicks = 0;
+                document.getElementById('kickCount').innerText = kicks;
+            }
+        }
+    </script>
+</body>
+
+</html>

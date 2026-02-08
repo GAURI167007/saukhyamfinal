@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saukhyam | Mental Health Care</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <header class="hero-section text-center">
+        <div class="logo-wrapper">
+            <img src="{{ url_for('static', filename='images/Logo.jpeg') }}" class="app-logo" alt="Saukhyam Logo">
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">Mental Health</h1>
+            <p class="hero-tagline">Your mind matters as much as your body.</p>
+        </div>
+        <nav
+            style="position: absolute; top: 2rem; right: 2rem; left: auto; margin: 0; background: transparent !important; box-shadow: none !important;">
+            <a href="{{ url_for('home') }}"
+                style="background: white !important; color: #b400ff !important; font-weight: 700; border: 2px solid white !important; box-shadow: 0 4px 12px rgba(0,0,0,0.1); opacity: 0.9; margin-right: 1rem; border-radius: 20px 4px 20px 4px; padding: 0.5rem 1rem; text-decoration: none;">Home</a>
+            <a href="{{ url_for('library') }}"
+                style="background: white !important; color: #b400ff !important; font-weight: 700; border: 2px solid white !important; box-shadow: 0 4px 12px rgba(0,0,0,0.15); opacity: 1; border-radius: 20px 4px 20px 4px; padding: 0.5rem 1rem; text-decoration: none;">Library</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container" style="max-width: 1200px; margin: 2rem auto; padding: 0 1.25rem;">
+
+        <!-- PHASE SELECTION -->
+        <section class="card" style="margin-bottom: 2rem;">
+            <h2>Select Your Health Phase</h2>
+            <p>Personalize your mental health resources.</p>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <select id="phaseSelect"
+                    style="padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border); flex: 1; min-width: 200px;">
+                    <option value="">-- Choose Phase --</option>
+                    <option value="Menstrual">Menstrual Phase</option>
+                    <option value="Pregnancy">Pregnancy</option>
+                    <option value="Postpartum">Post-Pregnancy</option>
+                </select>
+            </div>
+            <p id="phaseMessage" style="margin-top: 1rem; color: var(--primary); font-weight: 500;"></p>
+        </section>
+
+        <!-- AI Emotional Check-In (Standalone) -->
+        <section class="card" style="margin-bottom: 2rem;">
+            <h3>AI Emotional Check-In</h3>
+            <p>How are you feeling right now? Chat with our supportive AI.</p>
+
+            <div id="chatBox"
+                style="height: 350px; overflow-y: auto; background: #f9f9f9; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid #eee; display: flex; flex-direction: column; gap: 0.8rem;">
+                <div class="chat-message system"
+                    style="align-self: flex-start; background: #e9ecef; padding: 0.8rem 1.2rem; border-radius: 12px 12px 12px 0; max-width: 80%;">
+                    Hello! I'm here to listen without judgment. Whether you're feeling anxious, sad, or just
+                    overwhelmed, you can share it with me.
+                </div>
+            </div>
+
+            <!-- Quick Replies -->
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                <button onclick="sendQuickReply('I feel anxious')"
+                    style="background: #e0e7ff; color: #4338ca; border: none; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; cursor: pointer;">I
+                    feel anxious</button>
+                <button onclick="sendQuickReply('I can\'t sleep')"
+                    style="background: #e0e7ff; color: #4338ca; border: none; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; cursor: pointer;">I
+                    can't sleep</button>
+                <button onclick="sendQuickReply('I\'m super excited!')"
+                    style="background: #d1fae5; color: #065f46; border: none; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; cursor: pointer;">I'm
+                    super excited!</button>
+                <button onclick="sendQuickReply('Period cramps')"
+                    style="background: #fee2e2; color: #991b1b; border: none; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; cursor: pointer;">Period
+                    cramps</button>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem;">
+                <input type="text" id="userMessage" placeholder="Type here..."
+                    style="flex: 1; padding: 1rem; border-radius: 6px; border: 1px solid #ccc; font-size: 1rem;">
+                <button onclick="sendMessage()"
+                    style="padding: 0 2rem; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; font-weight: 600;">Send</button>
+            </div>
+        </section>
+
+        <!-- DASHBOARD GRID -->
+        <div class="grid grid-2"
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+
+            <!-- Book Appointment -->
+            <section class="card">
+                <h3>Book Therapy Session</h3>
+                <p>Schedule a session with a certified mental health professional.</p>
+
+                <form action="{{ url_for('appointments') }}" method="POST">
+                    <input type="hidden" name="speciality" value="Mental Health">
+                    <input type="hidden" name="mode" value="Video Consult">
+
+                    <div style="margin-bottom: 1rem;">
+                        <input type="text" name="concern" placeholder="Reason (e.g., Anxiety, Stress)" required
+                            style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border);">
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                        <input type="date" name="date" required
+                            style="flex: 1; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border);">
+                        <input type="time" name="time" required
+                            style="flex: 1; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border);">
+                    </div>
+
+                    <button type="submit" class="button"
+                        style="width: 100%; background: linear-gradient(135deg, #6366f1, #a855f7); border: none; padding: 1rem; border-radius: 50px; font-weight: bold; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4); transition: transform 0.2s; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">📅
+                        Book Appointment</button>
+                </form>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}"
+                    style="margin-top: 1rem; padding: 0.8rem; background: #e6ffFA; color: #006644; border-radius: 6px; font-size: 0.9rem;">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+            </section>
+
+            <!-- Guide Connect -->
+            <section class="card">
+                <h3>Therapist / Guide Connect</h3>
+                <p>Connect immediately with trained mental health guides.</p>
+                <div style="margin-top: 1rem;">
+                    <button onclick="toggleTherapists()" class="button"
+                        style="width: 100%; background: linear-gradient(135deg, #14b8a6, #0ea5e9); color: white; border: none; padding: 1rem; border-radius: 50px; font-weight: bold; box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4); transition: transform 0.2s; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">💬
+                        Connect Now</button>
+                </div>
+
+                <div id="therapistList"
+                    style="display: none; margin-top: 1.5rem; border-top: 1px solid #eee; padding-top: 1rem;">
+                    <div
+                        style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; padding: 0.8rem; background: #fdf2f8; border-radius: 8px;">
+                        <div
+                            style="width: 50px; height: 50px; background: #ddd; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                            👩‍⚕️</div>
+                        <div>
+                            <strong>Dr. Ananya Rao</strong><br>
+                            <span style="font-size: 0.85rem; color: var(--muted);">Clinical Psychologist</span>
+                            <div style="margin-top: 0.2rem;">
+                                <span
+                                    style="background: #d1fae5; color: #065f46; font-size: 0.75rem; padding: 2px 6px; border-radius: 4px;">Available</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary"
+                            style="margin-left: auto; padding: 0.5rem 1rem; font-size: 0.8rem;">Chat</button>
+                    </div>
+
+                    <div
+                        style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; padding: 0.8rem; background: #fdf2f8; border-radius: 8px;">
+                        <div
+                            style="width: 50px; height: 50px; background: #ddd; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                            👨‍⚕️</div>
+                        <div>
+                            <strong>Mr. Rajesh Kumar</strong><br>
+                            <span style="font-size: 0.85rem; color: var(--muted);">Counselor</span>
+                            <div style="margin-top: 0.2rem;">
+                                <span
+                                    style="background: #fee2e2; color: #991b1b; font-size: 0.75rem; padding: 2px 6px; border-radius: 4px;">In
+                                    Session</span>
+                            </div>
+                        </div>
+                        <button class="button-outline"
+                            style="margin-left: auto; padding: 0.5rem 1rem; font-size: 0.8rem;" disabled>Wait</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Emergency -->
+            <!-- Emergency -->
+            <section class="card">
+                <h3 style="color: var(--primary);">Emergency Help</h3>
+                <p><strong>Tele MANAS:</strong> 14416</p>
+                <p>24×7 Government of India Mental Health Helpline</p>
+                <a href="tel:14416" class="button"
+                    style="background: linear-gradient(135deg, #ef4444, #f43f5e); color: white; border: none; display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; text-decoration: none; padding: 1rem 2rem; border-radius: 50px; font-weight: bold; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); transition: transform 0.2s;">
+                    📞 Call 14416 Now
+                </a>
+            </section>
+
+        </div>
+
+    </main>
+
+    <footer>
+        <p>
+            © 2026 Saukhyam | RunTime Terrors – INNOVIT
+        </p>
+    </footer>
+
+    <script>
+        // Phase Selection
+        const phaseSelect = document.getElementById("phaseSelect");
+        const phaseMessage = document.getElementById("phaseMessage");
+
+        phaseSelect.addEventListener("change", () => {
+            if (phaseSelect.value) {
+                phaseMessage.innerText = "Customizing guides for: " + phaseSelect.value;
+            } else {
+                phaseMessage.innerText = "";
+            }
+        });
+
+        // Quick Reply Function
+        function sendQuickReply(msg) {
+            document.getElementById("userMessage").value = msg;
+            sendMessage();
+        }
+
+        // Chat Functionality
+        async function sendMessage() {
+            const input = document.getElementById("userMessage");
+            const chatBox = document.getElementById("chatBox");
+            const text = input.value.trim();
+
+            if (!text) return;
+
+            // User Message Bubble
+            chatBox.innerHTML += `
+                <div style="align-self: flex-end; display: flex; align-items: flex-end; gap: 0.5rem; max-width: 80%;">
+                    <div style="background: linear-gradient(135deg, #6366f1, #a855f7); color: white; padding: 0.8rem 1.2rem; border-radius: 12px 12px 0 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        ${text}
+                    </div>
+                    <div style="width: 30px; height: 30px; background: #ddd; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">👤</div>
+                </div>`;
+
+            input.value = "";
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Show Typing Indicator
+            const typingId = "typing-" + new Date().getTime();
+            chatBox.innerHTML += `
+                <div id="${typingId}" style="align-self: flex-start; display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
+                   <div style="width: 30px; height: 30px; background: #e0e7ff; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">🤖</div>
+                   <div style="background: #f3f4f6; padding: 0.8rem 1.2rem; border-radius: 12px 12px 12px 0; color: #6b7280; font-style: italic;">
+                        Thinking...
+                   </div>
+                </div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // AI Response
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+                const data = await response.json();
+
+                // Remove Typing Indicator
+                const typingEl = document.getElementById(typingId);
+                if (typingEl) typingEl.remove();
+
+                // AI Message Bubble
+                chatBox.innerHTML += `
+                    <div style="align-self: flex-start; display: flex; align-items: flex-end; gap: 0.5rem; max-width: 80%;">
+                        <div style="width: 30px; height: 30px; background: #e0e7ff; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">🤖</div>
+                        <div style="background: #f3f4f6; padding: 0.8rem 1.2rem; border-radius: 12px 12px 12px 0; color: #1f2937; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                            ${data.response}
+                        </div>
+                    </div>`;
+
+                chatBox.scrollTop = chatBox.scrollHeight;
+            } catch (error) {
+                console.error("Chat error:", error);
+
+                // Remove Typing Indicator
+                const typingEl = document.getElementById(typingId);
+                if (typingEl) typingEl.remove();
+
+                chatBox.innerHTML += `
+                    <div style="align-self: flex-start; background: #fee2e2; padding: 0.8rem 1.2rem; border-radius: 12px 12px 12px 0; max-width: 80%; color: #991b1b; border: 1px solid #fecaca;">
+                        ⚠️ Support is offline. Please refresh or try again.
+                    </div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }
+
+        // Therapist Toggle
+        function toggleTherapists() {
+            const list = document.getElementById('therapistList');
+            if (list.style.display === 'none') {
+                list.style.display = 'block';
+            } else {
+                list.style.display = 'none';
+            }
+        }
+
+        // Enter key for chat
+        document.getElementById("userMessage").addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+    </script>
+
+</body>
+
+</html>

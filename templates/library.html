@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Saukhyam – Health Library</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        :root {
+            --primary: #9b4dca;
+            --primary-dark: #7a32a6;
+            --accent: #ff6f61;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg: #f8f5ff;
+            --text: #222222;
+            --muted: #666666;
+            --card-bg: #ffffff;
+            --border: #e0d6f5;
+            --radius: 12px;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top left, #fbe9ff, #f3f0ff 40%, #ffffff 80%);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            /* background: linear-gradient(135deg, var(--primary), var(--accent)); Removed to inherit global */
+            /* color: #ffffff; Removed to inherit global */
+            padding: 1.5rem 1.25rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.75rem;
+        }
+
+        header .logo-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #ffffff22;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        header h1 {
+            font-size: 5 rem;
+            color: #f4c6f2;
+        }
+
+        header p {
+            font-size: 1.8rem;
+            color: #ffefff;
+        }
+
+        nav {
+            margin-top: 0.75rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            font-size: 0.85rem;
+            color: #ffffff;
+            padding: 0.5rem 0.75rem;
+            border-radius: 999px;
+            border: 1px solid #ffffff55;
+            backdrop-filter: blur(6px);
+            background: #ffffff22;
+        }
+
+        nav a:hover {
+            background: #ffffff33;
+        }
+
+        /* Adjust Main Grid */
+        main {
+            max-width: 1300px;
+            /* Increased max-width for side-by-side */
+            margin: 2rem auto;
+            padding: 0 1.25rem;
+            display: grid;
+            grid-template-columns: 3fr 1.2fr;
+            /* Restore side-by-side layout */
+            gap: 2rem;
+            align-items: start;
+            /* Align items to the top */
+        }
+
+        @media (max-width: 900px) {
+            main {
+                grid-template-columns: 1fr;
+                /* Stack on smaller screens */
+            }
+        }
+
+        /* Bigger Dialogue Boxes (Cards) */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            /* Good padding */
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            width: 100%;
+            /* max-width removed to let grid control width */
+        }
+
+        /* Specific style for Government Portals to fit content */
+        .gov-portal-card {
+            height: fit-content;
+            /* Remove void space */
+            position: sticky;
+            top: 130px;
+            /* Optional: make it sticky while scrolling */
+        }
+
+        .card h2 {
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card p.sub {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-bottom: 0.9rem;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.7rem;
+            border-radius: 999px;
+            background: #f4ecff;
+            color: var(--primary-dark);
+            margin-bottom: 0.6rem;
+        }
+
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .tab {
+            padding: 0.45rem 0.85rem;
+            font-size: 0.8rem;
+            border-radius: 999px;
+            border: 1px solid #e0d6f5;
+            background: #f7f2ff;
+            color: var(--muted);
+            cursor: pointer;
+        }
+
+        .tab.active {
+            border-color: var(--primary);
+            color: var(--primary-dark);
+            background: #efe3ff;
+            font-weight: 500;
+        }
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .resource-card {
+            padding: 1.2rem;
+            border-radius: 12px;
+            border: 1px solid #eee5ff;
+            background: #fcfbff;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .resource-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 20px rgba(155, 77, 202, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .resource-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.6rem;
+        }
+
+        .resource-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            line-height: 1.3;
+        }
+
+        .resource-badge {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+            font-weight: 500;
+        }
+
+        .badge-jsy {
+            background: var(--success);
+            color: white;
+        }
+
+        .badge-pmsma {
+            background: var(--primary);
+            color: white;
+        }
+
+        .badge-nmhp {
+            background: var(--accent);
+            color: white;
+        }
+
+        .badge-suman {
+            background: var(--warning);
+            color: white;
+        }
+
+        .resource-meta {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-excerpt {
+            font-size: 0.88rem;
+            line-height: 1.5;
+            color: var(--text);
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 0.65rem 0.75rem;
+            border: 1px solid #d7ccee;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-box:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px #9b4dca22;
+        }
+
+        .recently-read {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--border);
+        }
+
+        .recent-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0;
+            font-size: 0.85rem;
+        }
+
+        .recent-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        /* Government Portal Links */
+        .portal-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+            align-items: center;
+            /* Center buttons */
+        }
+
+        .portal-btn {
+            display: block;
+            width: 100%;
+            max-width: 400px;
+            /* Limit width */
+            padding: 1rem;
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: var(--text);
+            text-align: center;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .portal-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(155, 77, 202, 0.15);
+        }
+
+        footer {
+            max-width: 1040px;
+            margin: 0 auto 1.5rem;
+            padding: 0 1.25rem;
+            font-size: 0.75rem;
+            color: var(--muted);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <header>
+        <div class="logo-wrapper">
+            <img src="{{ url_for('static', filename='images/Logo.jpeg') }}" class="app-logo" alt="Saukhyam Logo">
+        </div>
+        <div class="brand">
+            <div>
+                <h1>Saukhyam – Health Library</h1>
+                <p>Evidence‑based guides from government programs in plain language.</p>
+            </div>
+        </div>
+        <nav
+            style="position: absolute; top: 2rem; right: 2rem; left: auto; margin: 0; background: transparent !important; box-shadow: none !important;">
+            <a href="{{ url_for('home') }}"
+                style="background: white !important; color: #b400ff !important; font-weight: 700; border: 2px solid white !important; box-shadow: 0 4px 12px rgba(0,0,0,0.1); opacity: 0.9; margin-right: 1rem; border-radius: 20px 4px 20px 4px; padding: 0.5rem 1rem; text-decoration: none;">Home</a>
+            <a href="{{ url_for('library') }}"
+                style="background: white !important; color: #b400ff !important; font-weight: 700; border: 2px solid white !important; box-shadow: 0 4px 12px rgba(0,0,0,0.15); opacity: 1; border-radius: 20px 4px 20px 4px; padding: 0.5rem 1rem; text-decoration: none;">Library</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Main Library -->
+        <section class="card">
+            <span class="tag">Phase 1 MVP</span>
+            <h2>Browse health guides</h2>
+            <p class="sub">Simplified from JSY, PMSMA, NMHP, SUMAN – exactly what your doctor would tell you.</p>
+
+            <!-- Search Section -->
+            <div class="search-container" style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                <input type="text" class="search-box" id="searchInput"
+                    placeholder="Search: anemia, pregnancy, mental health..." style="margin-bottom: 0; flex: 1;" />
+                <button class="search-btn" id="searchBtn"
+                    style="padding: 0 1.5rem; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                    Search Library
+                </button>
+            </div>
+
+            <!-- Inline Search Results Container -->
+            <div id="searchResults" style="display: none; margin-bottom: 2rem;">
+                <h3 style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">Search Results</h3>
+                <div class="resource-grid" id="resultsGrid">
+                    <!-- Results injected here -->
+                </div>
+                <button id="clearSearch"
+                    style="margin-top: 1rem; padding: 0.5rem 1rem; background: #eee; border: none; border-radius: 6px; cursor: pointer;">
+                    Clear Results & Show All Guides
+                </button>
+                <hr style="margin: 2rem 0; border: 0; border-top: 1px dashed var(--border);">
+            </div>
+
+            <div class="category-tabs" id="categoryTabs">
+                <button class="tab active" data-category="all">All</button>
+                <button class="tab" data-category="menstrual">Menstrual</button>
+                <button class="tab" data-category="pregnancy">Pregnancy</button>
+                <button class="tab" data-category="postpartum">Postpartum</button>
+                <button class="tab" data-category="mental">Mental health</button>
+            </div>
+
+            <div class="resource-grid" id="staticGrid">
+                <article class="resource-card" data-category="menstrual">
+                    <div class="resource-header">
+                        <div class="resource-title">When periods aren't normal</div>
+                        <span class="resource-badge badge-jsy">JSY Guide</span>
+                    </div>
+                    <div class="resource-meta">5 min read • Updated Jan 2026</div>
+                    <div class="resource-excerpt">
+                        Irregular cycles, heavy bleeding, severe pain – know the red flags that need doctor attention vs
+                        normal variations.
+                    </div>
+                </article>
+
+                <article class="resource-card" data-category="pregnancy">
+                    <div class="resource-header">
+                        <div class="resource-title">PMSMA pregnancy checklist</div>
+                        <span class="resource-badge badge-pmsma">PMSMA</span>
+                    </div>
+                    <div class="resource-meta">7 min read • Trimester guide</div>
+                    <div class="resource-excerpt">
+                        Month-by-month milestones, danger signs, nutrition aligned with Pradhan Mantri Surakshit
+                        Matritva Abhiyan.
+                    </div>
+                </article>
+
+                <article class="resource-card" data-category="mental postpartum">
+                    <div class="resource-header">
+                        <div class="resource-title">Postpartum mood changes</div>
+                        <span class="resource-badge badge-nmhp">NMHP</span>
+                    </div>
+                    <div class="resource-meta">6 min read • Mental health</div>
+                    <div class="resource-excerpt">
+                        Baby blues vs depression: when mood dips need professional help. National Mental Health
+                        Programme guidance.
+                    </div>
+                </article>
+
+                <article class="resource-card" data-category="menstrual">
+                    <div class="resource-header">
+                        <div class="resource-title">Anemia & heavy periods</div>
+                        <span class="resource-badge badge-suman">SUMAN</span>
+                    </div>
+                    <div class="resource-meta">4 min read • Nutrition</div>
+                    <div class="resource-excerpt">
+                        Iron-rich Indian foods, Vitamin C pairing, danger signs from Surakshit Matritva Aashwasan
+                        program.
+                    </div>
+                </article>
+
+                <article class="resource-card" data-category="pregnancy">
+                    <div class="resource-header">
+                        <div class="resource-title">SUMAN antenatal visits</div>
+                        <span class="resource-badge badge-suman">SUMAN</span>
+                    </div>
+                    <div class="resource-meta">8 min read • Schedule</div>
+                    <div class="resource-excerpt">
+                        Free checkups timeline, what tests to expect, hospital bag checklist for safe delivery.
+                    </div>
+                </article>
+
+                <article class="resource-card" data-category="postpartum">
+                    <div class="resource-header">
+                        <div class="resource-title">JSY cash benefits</div>
+                        <span class="resource-badge badge-jsy">JSY</span>
+                    </div>
+                    <div class="resource-meta">3 min read • Benefits</div>
+                    <div class="resource-excerpt">
+                        Janani Suraksha Yojana amounts by delivery type, eligibility, how to apply at your local health
+                        center.
+                    </div>
+                </article>
+            </div>
+
+            <div class="recently-read">
+                <h3 style="font-size: 0.95rem; margin-bottom: 0.5rem;">Recently read</h3>
+                <div class="recent-item">
+                    <div class="recent-dot"></div>
+                    <span>PMSMA pregnancy checklist • 2 days ago</span>
+                </div>
+                <div class="recent-item">
+                    <div class="recent-dot"></div>
+                    <span>Anemia & heavy periods • 1 week ago</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Government Portals -->
+        <section class="card gov-portal-card">
+            <span class="tag" style="background: #fdf2f8; color: #be185d;">External Resources</span>
+            <h2>Government portals</h2>
+            <p class="sub">
+                Official sources that inspired this library – bookmark for reference.
+            </p>
+
+            <div class="portal-links">
+                <a href="https://suman.mohfw.gov.in/" target="_blank" rel="noopener noreferrer" class="portal-btn">
+                    SUMAN Portal ↗
+                </a>
+                <a href="https://esanjeevani.mohfw.gov.in/" target="_blank" rel="noopener noreferrer"
+                    class="portal-btn">
+                    e-Sanjeevani ↗
+                </a>
+                <a href="https://www.mohfw.gov.in/?q=en" target="_blank" rel="noopener noreferrer" class="portal-btn">
+                    Ministry of Health ↗
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <span>© 2026 Saukhyam • RunTime Terrors</span>
+        <span>Phase 1 MVP health library – simplified from government programs for everyday use.[file:1]</span>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const searchResults = document.getElementById('searchResults');
+        const resultsGrid = document.getElementById('resultsGrid');
+        const clearSearchBtn = document.getElementById('clearSearch');
+        const staticGrid = document.getElementById('staticGrid');
+        const categoryTabs = document.querySelector('.category-tabs'); // Changed ID to class in replacement above, careful
+
+        // Tabs Logic
+        const tabs = document.querySelectorAll('.tab');
+        const staticCards = document.querySelectorAll('.resource-card[data-category]'); // specific selector for static cards
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Ensure static grid is visible when switching tabs
+                staticGrid.style.display = 'grid';
+                searchResults.style.display = 'none';
+
+                const category = tab.dataset.category;
+                staticCards.forEach(card => {
+                    if (category === 'all') {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = card.dataset.category.includes(category) ? 'block' : 'none';
+                    }
+                });
+            });
+        });
+
+        // Search Functionality (Wikipedia API)
+        async function performSearch() {
+            const query = searchInput.value.trim();
+            if (!query) return;
+
+            // UI: Show loading state (optional: text update)
+            searchBtn.innerText = "Searching...";
+            searchBtn.disabled = true;
+
+            try {
+                // Fetch from Wikipedia OpenSearch
+                const url = `https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(query)}&limit=6&namespace=0&format=json&origin=*`;
+                const response = await fetch(url);
+                const data = await response.json();
+
+                // data format: [query, [titles], [descriptions], [links]]
+                const titles = data[1];
+                const descriptions = data[2];
+                const links = data[3];
+
+                if (titles.length === 0) {
+                    alert("No results found. Try a broader health term.");
+                    resetUI();
+                    return;
+                }
+
+                // Render Results
+                resultsGrid.innerHTML = ''; // Clear previous
+
+                for (let i = 0; i < titles.length; i++) {
+                    const card = document.createElement('article');
+                    card.className = 'resource-card';
+                    card.style.borderLeft = '4px solid var(--primary)'; // Distinct style
+
+                    card.innerHTML = `
+                        <div class="resource-header">
+                            <div class="resource-title">${titles[i]}</div>
+                            <span class="resource-badge" style="background: #eee; color: #333;">Wiki Health</span>
+                        </div>
+                        <div class="resource-meta">External Source</div>
+                        <div class="resource-excerpt">
+                            ${descriptions[i] || 'Click to read full article on Wikipedia.'}
+                        </div>
+                    `;
+
+                    // Click to open link
+                    card.addEventListener('click', () => {
+                        window.open(links[i], '_blank');
+                    });
+
+                    resultsGrid.appendChild(card);
+                }
+
+                // Switch Views
+                staticGrid.style.display = 'none';
+                // categoryTabs.style.display = 'none'; // Optional: hide tabs during search
+                searchResults.style.display = 'block';
+
+            } catch (error) {
+                console.error("Search error:", error);
+                alert("Error fetching results. Please check your internet connection.");
+            } finally {
+                resetUI();
+            }
+        }
+
+        function resetUI() {
+            searchBtn.innerText = "Search Library";
+            searchBtn.disabled = false;
+        }
+
+        // Live Local Filter (Optional: Keep filtering static cards while typing?)
+        // For now, let's keep the Search Button as the trigger for external, and typing for local?
+        // User asked for "fetch queries", implying external. Let's prioritize Button = External.
+
+        // However, restoring local filter for user convenience:
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            if (searchResults.style.display === 'none') {
+                staticCards.forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    card.style.display = text.includes(query) ? 'block' : 'none';
+                });
+            }
+        });
+
+        // Event Listeners
+        searchBtn.addEventListener('click', performSearch);
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        clearSearchBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            searchResults.style.display = 'none';
+            staticGrid.style.display = 'grid';
+            categoryTabs.style.display = 'flex';
+
+            // Reset static cards visibility
+            staticCards.forEach(card => card.style.display = 'block');
+            document.querySelector('.tab[data-category="all"]').click(); // Reset tabs
+        });
+
+        // Static Card Click
+        staticCards.forEach(card => {
+            card.addEventListener('click', () => {
+                alert('Opening full guide... (In production: modal or new page with full content)');
+            });
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', e => {
+                const targetId = link.getAttribute('href').slice(1);
+                const target = document.getElementById(targetId);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

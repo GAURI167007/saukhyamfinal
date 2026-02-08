@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Saukhyam | Holistic Health Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <!-- Header -->
+    <!-- Header / Hero -->
+    <header class="hero-section text-center">
+        <div class="logo-wrapper">
+            <img src="{{ url_for('static', filename= 'images/Logo.jpeg') }}" class="app-logo" alt="Saukhyam Logo">
+        </div>
+        
+        <div class="hero-content">
+            <h1 class="hero-title">Saukhyam</h1>
+            <p class="hero-sanskrit">नारीस्वास्थ्यं – विज्ञानस्य करुणा</p>
+            <p class="hero-tagline">Nourishing Women Through AI & Science</p>
+        </div>
+        <nav
+            style="position: absolute; top: 2rem; right: 2rem; left: auto; margin: 0; background: transparent !important; box-shadow: none !important;">
+            <a href="{{ url_for('home') }}"
+                style="background: white !important; color: #b400ff !important; font-weight: 700; border: 2px solid white !important; box-shadow: 0 4px 12px rgba(0,0,0,0.15); opacity: 1; margin-right: 1rem; border-radius: 20px 4px 20px 4px; padding: 0.5rem 1rem; text-decoration: none;">Home</a>
+            <a href="{{ url_for('library') }}"
+                style="background: white !important; color: #b400ff !important; font-weight: 700; border: 2px solid white !important; box-shadow: 0 4px 12px rgba(0,0,0,0.15); opacity: 0.9; border-radius: 20px 4px 20px 4px; padding: 0.5rem 1rem; text-decoration: none;">Library</a>
+        </nav>
+    </header>
+
+    <!-- Main Navigation -->
+    <main class="container grid grid-2">
+
+        <section class="card">
+            <h2>Select Health Phase</h2>
+            <p>
+                Choose the phase that best represents your current health needs.
+                Every journey is private, respectful, and gender-neutral.
+            </p>
+
+            <div class="card-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                <a href="{{ url_for('menstrual') }}" class="card hover-card"
+                    style="text-decoration: none; color: inherit; padding: 1.5rem; text-align: center; border: 1px solid var(--border); transition: transform 0.2s;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🩸</div>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Menstrual Health</h3>
+                    <p style="font-size: 0.85rem; color: var(--muted);">Track cycles, flow, and symptoms</p>
+                </a>
+
+                <a href="{{ url_for('pregnancy') }}" class="card hover-card"
+                    style="text-decoration: none; color: inherit; padding: 1.5rem; text-align: center; border: 1px solid var(--border); transition: transform 0.2s;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🤰</div>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Pregnancy</h3>
+                    <p style="font-size: 0.85rem; color: var(--muted);">Week-by-week tracking</p>
+                </a>
+
+                <a href="{{ url_for('postpregnancy') }}" class="card hover-card"
+                    style="text-decoration: none; color: inherit; padding: 1.5rem; text-align: center; border: 1px solid var(--border); transition: transform 0.2s;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">👶</div>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Post-Pregnancy</h3>
+                    <p style="font-size: 0.85rem; color: var(--muted);">Recovery and baby care</p>
+                </a>
+
+                <a href="{{ url_for('mentalhealth') }}" class="card hover-card"
+                    style="text-decoration: none; color: inherit; padding: 1.5rem; text-align: center; border: 1px solid var(--border); transition: transform 0.2s;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🧠</div>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Mental Health</h3>
+                    <p style="font-size: 0.85rem; color: var(--muted);">Mood tracking and support</p>
+                </a>
+            </div>
+
+            <div style="margin-top: 1rem; text-align: center;">
+                <a href="{{ url_for('healthtrack') }}" class="btn-primary"
+                    style="display: inline-block; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(217, 0, 143, 0.4);">
+                    Daily Health Tracker →
+                </a>
+            </div>
+        </section>
+
+        <!-- New AI Insights Card -->
+        <section class="card">
+            <h2>AI Health Insights</h2>
+            <p>
+                Personalized pattern recognition for your health journey.
+                Analyze mood, cycles, and logs to get actionable advice.
+            </p>
+            <ul>
+                <li>✔ Live interactive chat assistant</li>
+                <li>✔ Risk monitoring (Anemia, Mood)</li>
+            </ul>
+            <a href="{{ url_for('ai_insights') }}" class="button-outline">Open AI Dashboard</a>
+        </section>
+
+        <section class="card">
+            <h2>Hospital & Government Services</h2>
+            <p>
+                Secure integration with verified hospitals and government-backed
+                healthcare systems.
+            </p>
+
+            <ul>
+                <li>✔ Appointment booking (demo)</li>
+                <li>✔ Verified care pathways</li>
+            </ul>
+
+            <a href="{{ url_for('doctorsconnect') }}" class="button-outline">Doctor Connect</a>
+
+            <div style="margin-top: 1rem; text-align: center;">
+                <a href="{{ url_for('appointments') }}" class="btn-primary"
+                    style="display: inline-block; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(217, 0, 143, 0.4);">
+                    View My Appointments →
+                </a>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Mental Health Support</h2>
+            <p>
+                Emotional well-being through self-checks, guidance,
+                and professional support connections.
+            </p>
+
+            <a href="{{ url_for('mentalhealth') }}" class="button-outline">Explore Mental Health</a>
+        </section>
+
+        <section class="card">
+            <h2>Health Shopping Library</h2>
+            <p>
+                Curated wellness products and future wearable-device integration.
+                Core healthcare remains free.
+            </p>
+
+            <a href="{{ url_for('shopping') }}" class="button-outline">Go to Shop</a>
+        </section>
+
+    </main>
+
+    <!-- Team Section placed correctly outside the main grid but inside container wrapper if needed, or as a new section -->
+    <section class="container card team-section">
+        <h2>Meet RunTime Terrors</h2>
+        <p style="font-size: 1rem; color: var(--text-muted);">INNOVIT 2026 • Theme 3: MedTech BioTech HealthTech</p>
+
+        <div class="team-grid">
+            <div class="team-member">
+                <img src="{{ url_for('static', filename='images/Gauri Nandana M.jpeg') }}" class="team-avatar"
+                    alt="GN">
+                <h3>Gauri Nandana M.</h3>
+                <p>Leader • 25BAI10053<br>9310200910</p>
+                <a href="https://www.linkedin.com/in/gauri-nandana-m-463b6b378/" target="_blank"
+                    class="linkedin-link">LinkedIn Profile ↗</a>
+            </div>
+
+            <div class="team-member">
+                <img src="{{ url_for('static', filename='images/Vaishnavi S Nair.jpeg') }}" class="team-avatar"
+                    alt="VSN">
+                <h3>Vaishnavi S Nair</h3>
+                <p>Developer • 25BCE10498</p>
+                <a href="https://www.linkedin.com/in/vaishnavi-nair-350169275/" target="_blank"
+                    class="linkedin-link">LinkedIn Profile ↗</a>
+            </div>
+
+            <div class="team-member">
+                <img src="{{ url_for('static', filename='images/Gowri Ramesh.jpeg') }}" class="team-avatar"
+                    alt="GR">
+                <h3>Gowri Ramesh</h3>
+                <p>Designer • 25BCY10100</p>
+                <a href="https://www.linkedin.com/in/gowri-ramesh-8824b7378/" target="_blank"
+                    class="linkedin-link">LinkedIn Profile ↗</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Language Selection -->
+    <section class="container card center">
+        <h2>Choose Your Language</h2>
+        <p>
+            Saukhyam supports nationwide accessibility through regional languages.
+        </p>
+
+        <select aria-label="Select language">
+            <option>English</option>
+            <option>हिंदी (Hindi)</option>
+            <option>বাংলা (Bengali)</option>
+            <option>తెలుగు (Telugu)</option>
+            <option>मराठी (Marathi)</option>
+            <option>தமிழ் (Tamil)</option>
+            <option>उर्दू (Urdu)</option>
+            <option>ગુજરાતી (Gujarati)</option>
+            <option>ಕನ್ನಡ (Kannada)</option>
+            <option>ଓଡ଼ିଆ (Odia)</option>
+            <option>മലയാളം (Malayalam)</option>
+            <option>ਪੰਜਾਬੀ (Punjabi)</option>
+            <option>অসমীয়া (Assamese)</option>
+            <option>मैथिली (Maithili)</option>
+            <option>संस्कृतम् (Sanskrit)</option>
+            <option>नेपाली (Nepali)</option>
+            <option>कोंकणी (Konkani)</option>
+            <option>डोगरी (Dogri)</option>
+            <option>संथाली (Santhali)</option>
+            <option>कश्मीरी (Kashmiri)</option>
+            <option>मणिपुरी (Manipuri)</option>
+            <option>बोडो (Bodo)</option>
+        </select>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="container card center" style="margin-top: 2rem;">
+        <h2>Contact & Support</h2>
+        <p>We are here to help you 24/7.</p>
+
+        <div class="contact-grid">
+            <div class="contact-item">
+                <div class="contact-icon contact-phone">📞</div>
+                <div class="contact-details">
+                    <h3>Medical Emergency</h3>
+                    <p>24/7 ambulance & hospital</p>
+                    <a href="tel:108">108</a>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-icon contact-email">✉️</div>
+                <div class="contact-details">
+                    <h3>Saukhyam Support</h3>
+                    <p>Technical & app issues</p>
+                    <a href="mailto:support@saukhyam.in">support@saukhyam.in</a>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-icon contact-helpline">🆘</div>
+                <div class="contact-details">
+                    <h3>Tele-MANAS</h3>
+                    <p>Mental health crisis</p>
+                    <a href="tel:14416">14416</a>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-icon contact-support">💬</div>
+                <div class="contact-details">
+                    <h3>Live Chat</h3>
+                    <p>Mon-Sat 9AM-7PM</p>
+                    <a href="#" onclick="alert('Chat opening... (Phase 2 feature)')">Start chat</a>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 1.5rem;">
+            <a href="{{ url_for('contacts') }}" class="button-outline">Click here</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            Saukhyam follows a no-subscription model.
+            Healthcare access is a right, not a privilege.
+        </p>
+    </footer>
+
+</body>
+
+</html>
