@@ -41,22 +41,6 @@ Backend/
 │   ├── healthtrack.html  
 │   └── other HTML files  
 
-## Setup Instructions (Local)
-
-1. Clone the repository:
-   git clone https://github.com/<your-username>/saukhyamfinal.git
-
-2. Navigate to the project directory:
-   cd saukhyamfinal
-
-3. Install dependencies:
-   pip install -r requirements.txt
-
-4. Run the Flask application:
-   python app.py
-
-5. Open your browser and visit:
-   http://127.0.0.1:5000
 
 
 ## Contributors
