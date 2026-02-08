@@ -49,6 +49,3 @@ Backend/
 - Vaishnavi S Nair
 - Gowri Ramesh
 
-## Disclaimer
-
-This application does not provide medical diagnosis or treatment. The information and guidance offered are for awareness and supportive purposes only. Users are advised to consult qualified medical professionals for serious or persistent health concerns.
